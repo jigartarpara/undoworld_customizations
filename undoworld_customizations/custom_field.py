@@ -8,7 +8,12 @@ def setup_custom_fields():
 				label='Serial Number',
 				fieldtype='Data',
 				insert_after='subject'
-			)
+			),
+			dict(fieldname='customer_name_cu',
+				label='Customer Name',
+				fieldtype='Data',
+				insert_after='serial_number_cu'
+			),
 		],
 	}
 	try:
