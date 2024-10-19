@@ -20,8 +20,12 @@ def endpoint(serial_number):
 
 def get_other_items(serial_number_doc):
     final_data = []
-    if serial_number_doc.customer:
-        dns = frappe.get_all("Delivery Note", {"customer": serial_number_doc.customer})
+    parent = frappe.db.get_value("Delivery Note Item",{"serial_no":("like","'%"+serial_number_doc.name+"%'")}, "parent")
+    if not parent:
+        return ""
+    customer = frappe.db.get_value("Delivery Note", parent, "customer")
+    if customer:
+        dns = frappe.get_all("Delivery Note", {"customer": customer})
         for dn in dns:
             dn_doc = frappe.get_doc("Delivery Note", dn)
             for item in dn_doc.items:
