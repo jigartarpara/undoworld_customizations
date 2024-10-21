@@ -6,6 +6,8 @@ def endpoint(ticket_id):
         ticket = frappe.get_doc("Support Ticket",ticket_id)
         return {
             "status": ticket.status,
+            "awb_number_pickup": ticket.awb_number_pickup,
+            "awb_number_delivery": ticket.awb_number_delivery
 
         }
     except frappe.DoesNotExistError:

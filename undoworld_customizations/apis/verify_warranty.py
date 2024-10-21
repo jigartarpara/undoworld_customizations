@@ -9,7 +9,7 @@ def endpoint(serial_number):
         else:
             frappe.local.response["status"] = "Under Warranty"
         frappe.local.response["warranty_expiry_date"] = serial_number_doc.warranty_expiry_date
-        frappe.local.response["product_name"] = serial_number_doc.item_name
+        frappe.local.response["product_name"] = serial_number_doc.item_code
         frappe.local.response["other_items"] = get_other_items(serial_number_doc)
 
     except frappe.DoesNotExistError:
@@ -20,7 +20,20 @@ def endpoint(serial_number):
 
 def get_other_items(serial_number_doc):
     final_data = []
-    parent = frappe.db.get_value("Delivery Note Item",{"serial_no":("like","'%"+serial_number_doc.name+"%'")}, "parent")
+    args = {
+        "serial_no": "%%%s%%" % serial_number_doc.name,
+    }
+
+    parent = frappe.db.sql(
+        """select parent
+        from
+            `tabDelivery Note Item` dni
+        where
+            dni.serial_no like %(serial_no)s
+        """,
+        args,
+    )
+    print("Parenttttt ",parent, serial_number_doc.name, "'%"+serial_number_doc.name+"%'")
     if not parent:
         return ""
     customer = frappe.db.get_value("Delivery Note", parent, "customer")
@@ -35,7 +48,7 @@ def get_other_items(serial_number_doc):
                         final_data.append({
                             "sn": sn,
                             "warranty_expiry_date": serial_number_doc.warranty_expiry_date,
-                            "product_name": serial_number_doc.item_name,
+                            "product_name": serial_number_doc.item_code,
                         })
 
     return final_data
