@@ -9,7 +9,8 @@ def endpoint(serial_number):
         else:
             frappe.local.response["status"] = "Under Warranty"
         frappe.local.response["warranty_expiry_date"] = serial_number_doc.warranty_expiry_date
-        frappe.local.response["product_name"] = serial_number_doc.item_code
+        frappe.local.response["product_code"] = serial_number_doc.item_code
+        frappe.local.response["product_name"] = serial_number_doc.item_name
         frappe.local.response["other_items"] = get_other_items(serial_number_doc)
 
     except frappe.DoesNotExistError:
@@ -48,7 +49,8 @@ def get_other_items(serial_number_doc):
                         final_data.append({
                             "sn": sn,
                             "warranty_expiry_date": serial_number_doc.warranty_expiry_date,
-                            "product_name": serial_number_doc.item_code,
+                            "product_name": serial_number_doc.item_name,
+                            "product_code": serial_number_doc.item_code,
                         })
 
     return final_data
