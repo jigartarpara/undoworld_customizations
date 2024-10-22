@@ -19,11 +19,22 @@ def endpoint(serial_number):
         frappe.local.response["mobile_number"] = ""
         frappe.local.response["history"] = get_history(serial_number)
         if parent:
-            customer = frappe.db.get_value("Delivery Note", parent, "customer")
+            dn = frappe.db.get_value("Delivery Note", parent, "name")
+            dn_doc = frappe.get_doc("Delivery Note", dn)
+            customer = dn_doc.customer
+            delivery_date = dn_doc.posting_date
+            frappe.local.response["order_id"] = ""
+            frappe.local.response["order_date"] = ""
+            frappe.local.response["delivery_id"] = dn_doc.name
+            for row in dn_doc.items:
+                if row.against_sales_order:
+                    frappe.local.response["order_id"] = row.against_sales_order
+                    frappe.local.response["order_date"] = frappe.db.get_value("Sales Order", row.against_sales_order, "transaction_date")
             customer_doc = frappe.get_doc("Customer", customer)
             frappe.local.response["customer_name"] = customer_doc.customer_name
             frappe.local.response["mobile_number"] = customer_doc.cu_mobile_number
             frappe.local.response["email"] = customer_doc.cu_email
+            frappe.local.response["delivery_date"] = delivery_date
         frappe.local.response["other_items"] = get_other_items(serial_number_doc)
 
     except frappe.DoesNotExistError:
@@ -77,7 +88,8 @@ def get_other_items(serial_number_doc):
                             "warranty_expiry_date": serial_number_doc.warranty_expiry_date,
                             "product_name": serial_number_doc.item_name,
                             "product_code": serial_number_doc.item_code,
-                            "product_image" : frappe.utils.get_url(img_url) if img_url else ""
+                            "product_image" : frappe.utils.get_url(img_url) if img_url else "",
+                            "delivery_date": dn_doc.posting_date,
                         })
 
     return final_data
