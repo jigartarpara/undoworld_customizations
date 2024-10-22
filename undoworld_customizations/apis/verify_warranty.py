@@ -11,7 +11,8 @@ def endpoint(serial_number):
         frappe.local.response["warranty_expiry_date"] = serial_number_doc.warranty_expiry_date
         frappe.local.response["product_code"] = serial_number_doc.item_code
         frappe.local.response["product_name"] = serial_number_doc.item_name
-        frappe.local.response["product_image"] = frappe.utils.get_url(frappe.db.get_value("Item", serial_number_doc.item_code, "image"))
+        img_url = frappe.db.get_value("Item", serial_number_doc.item_code, "image")
+        frappe.local.response["product_image"] = frappe.utils.get_url(img_url) if img_url else ""
         parent = get_dn(serial_number)
         frappe.local.response["customer_name"] = ""
         frappe.local.response["email"] = ""
@@ -60,12 +61,13 @@ def get_other_items(serial_number_doc):
                 if item.serial_no:
                     for sn in item.serial_no.split("\n"):
                         serial_number_doc = frappe.get_doc("Serial No", sn)
+                        img_url = frappe.db.get_value("Item", serial_number_doc.item_code, "image")
                         final_data.append({
                             "sn": sn,
                             "warranty_expiry_date": serial_number_doc.warranty_expiry_date,
                             "product_name": serial_number_doc.item_name,
                             "product_code": serial_number_doc.item_code,
-                            "product_image" : frappe.utils.get_url(frappe.db.get_value("Item", serial_number_doc.item_code, "image"))
+                            "product_image" : frappe.utils.get_url(img_url) if img_url else ""
                         })
 
     return final_data
