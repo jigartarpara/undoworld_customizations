@@ -17,6 +17,7 @@ def endpoint(serial_number):
         frappe.local.response["customer_name"] = ""
         frappe.local.response["email"] = ""
         frappe.local.response["mobile_number"] = ""
+        frappe.local.response["history"] = get_history(serial_number)
         if parent:
             customer = frappe.db.get_value("Delivery Note", parent, "customer")
             customer_doc = frappe.get_doc("Customer", customer)
@@ -30,6 +31,15 @@ def endpoint(serial_number):
         frappe.local.response["data"] = ""
         frappe.local.response.http_status_code = 404
         return "Invalid Serial Number"
+def get_history(sr):
+    dn = get_dn(sr)
+    if not dn:
+        return
+    customer = frappe.db.get_value("Delivery Note", dn, "customer")
+    if not customer:
+        return
+    tickets = frappe.get_all("Support Ticket", {"customer":customer }, ["name as support_ticket","status" ])
+    return tickets
 
 def get_dn(srn):
     args = {
