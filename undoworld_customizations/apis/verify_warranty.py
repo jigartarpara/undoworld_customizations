@@ -1,13 +1,11 @@
 import frappe
+from frappe.utils import getdate,nowdate
 
 @frappe.whitelist(allow_guest=True)
 def endpoint(serial_number):
     try:
         serial_number_doc = frappe.get_doc("Serial No", serial_number)
-        if serial_number_doc.maintenance_status in ["Out of Warranty", "Out of AMC", ""]:
-            frappe.local.response["status"] = "Out of Warranty"
-        else:
-            frappe.local.response["status"] = "Under Warranty"
+        frappe.local.response["status"] = set_maintenance_status(serial_number_doc)
         frappe.local.response["warranty_expiry_date"] = serial_number_doc.warranty_expiry_date
         frappe.local.response["product_code"] = serial_number_doc.item_code
         frappe.local.response["product_name"] = serial_number_doc.item_name
@@ -42,6 +40,15 @@ def endpoint(serial_number):
         frappe.local.response["data"] = ""
         frappe.local.response.http_status_code = 404
         return "Invalid Serial Number"
+def set_maintenance_status(serial_number_doc):
+
+    if serial_number_doc.warranty_expiry_date and getdate(serial_number_doc.warranty_expiry_date) < getdate(nowdate()):
+        return "Out of Warranty"
+
+    if serial_number_doc.warranty_expiry_date and getdate(serial_number_doc.warranty_expiry_date) >= getdate(nowdate()):
+        return "Under Warranty"
+
+
 def get_history(sr):
     dn = get_dn(sr)
     if not dn:
@@ -79,6 +86,12 @@ def get_other_items(serial_number_doc):
         for dn in dns:
             dn_doc = frappe.get_doc("Delivery Note", dn)
             for item in dn_doc.items:
+                order_id = ""
+                order_date = ""
+
+                if item.against_sales_order:
+                    order_id = item.against_sales_order
+                    order_date = frappe.db.get_value("Sales Order", item.against_sales_order, "transaction_date")
                 if item.serial_no:
                     for sn in item.serial_no.split("\n"):
                         serial_number_doc = frappe.get_doc("Serial No", sn)
@@ -90,6 +103,8 @@ def get_other_items(serial_number_doc):
                             "product_code": serial_number_doc.item_code,
                             "product_image" : frappe.utils.get_url(img_url) if img_url else "",
                             "delivery_date": dn_doc.posting_date,
+                            "order_id": order_id,
+                            "order_date": order_date
                         })
 
     return final_data
