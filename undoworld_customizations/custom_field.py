@@ -15,6 +15,18 @@ def setup_custom_fields():
 				insert_after='serial_number_cu'
 			),
 		],
+		"Customer": [
+			dict(fieldname='cu_mobile_number',
+				label='Mobile Number',
+				fieldtype='Data',
+				insert_after='customer_group'
+			),
+			dict(fieldname='cu_email',
+				label='Email',
+				fieldtype='Data',
+				insert_after='cu_mobile_number'
+			),
+		]
 	}
 	try:
 		create_custom_fields(custom_fields)

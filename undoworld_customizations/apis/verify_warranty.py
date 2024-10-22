@@ -11,6 +11,17 @@ def endpoint(serial_number):
         frappe.local.response["warranty_expiry_date"] = serial_number_doc.warranty_expiry_date
         frappe.local.response["product_code"] = serial_number_doc.item_code
         frappe.local.response["product_name"] = serial_number_doc.item_name
+        frappe.local.response["product_image"] = frappe.utils.get_url(frappe.db.get_value("Item", serial_number_doc.item_code, "image"))
+        parent = get_dn(serial_number)
+        frappe.local.response["customer_name"] = ""
+        frappe.local.response["email"] = ""
+        frappe.local.response["mobile_number"] = ""
+        if parent:
+            customer = frappe.db.get_value("Delivery Note", parent, "customer")
+            customer_doc = frappe.get_doc("Customer", customer)
+            frappe.local.response["customer_name"] = customer_doc.customer_name
+            frappe.local.response["mobile_number"] = customer_doc.cu_mobile_number
+            frappe.local.response["email"] = customer_doc.cu_email
         frappe.local.response["other_items"] = get_other_items(serial_number_doc)
 
     except frappe.DoesNotExistError:
@@ -19,10 +30,9 @@ def endpoint(serial_number):
         frappe.local.response.http_status_code = 404
         return "Invalid Serial Number"
 
-def get_other_items(serial_number_doc):
-    final_data = []
+def get_dn(srn):
     args = {
-        "serial_no": "%%%s%%" % serial_number_doc.name,
+        "serial_no": "%%%s%%" % srn,
     }
 
     parent = frappe.db.sql(
@@ -34,7 +44,11 @@ def get_other_items(serial_number_doc):
         """,
         args,
     )
-    print("Parenttttt ",parent, serial_number_doc.name, "'%"+serial_number_doc.name+"%'")
+    return parent
+
+def get_other_items(serial_number_doc):
+    final_data = []
+    parent = get_dn(serial_number_doc.name)
     if not parent:
         return ""
     customer = frappe.db.get_value("Delivery Note", parent, "customer")
@@ -51,6 +65,7 @@ def get_other_items(serial_number_doc):
                             "warranty_expiry_date": serial_number_doc.warranty_expiry_date,
                             "product_name": serial_number_doc.item_name,
                             "product_code": serial_number_doc.item_code,
+                            "product_image" : frappe.utils.get_url(frappe.db.get_value("Item", serial_number_doc.item_code, "image"))
                         })
 
     return final_data
