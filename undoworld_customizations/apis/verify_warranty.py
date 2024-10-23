@@ -95,17 +95,19 @@ def get_other_items(serial_number_doc):
                     order_date = frappe.db.get_value("Sales Order", item.against_sales_order, "transaction_date")
                 if item.serial_no:
                     for sn in item.serial_no.split("\n"):
-                        serial_number_doc = frappe.get_doc("Serial No", sn)
-                        img_url = frappe.db.get_value("Item", serial_number_doc.item_code, "image")
-                        final_data.append({
-                            "sn": sn,
-                            "warranty_expiry_date": serial_number_doc.warranty_expiry_date,
-                            "product_name": serial_number_doc.item_name,
-                            "product_code": serial_number_doc.item_code,
-                            "product_image" : frappe.utils.get_url(img_url) if img_url else "",
-                            "delivery_date": dn_doc.posting_date,
-                            "order_id": order_id,
-                            "order_date": order_date
-                        })
-
+                        try:
+                            serial_number_doc = frappe.get_doc("Serial No", sn)
+                            img_url = frappe.db.get_value("Item", serial_number_doc.item_code, "image")
+                            final_data.append({
+                                "sn": sn,
+                                "warranty_expiry_date": serial_number_doc.warranty_expiry_date,
+                                "product_name": serial_number_doc.item_name,
+                                "product_code": serial_number_doc.item_code,
+                                "product_image" : frappe.utils.get_url(img_url) if img_url else "",
+                                "delivery_date": dn_doc.posting_date,
+                                "order_id": order_id,
+                                "order_date": order_date
+                            })
+                        except:
+                            pass
     return final_data
