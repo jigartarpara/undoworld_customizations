@@ -36,6 +36,7 @@ def endpoint(serial_number):
         frappe.local.response["other_items"] = get_other_items(serial_number_doc)
 
     except frappe.DoesNotExistError:
+        frappe.log_error()
         frappe.clear_messages()
         frappe.local.response["data"] = ""
         frappe.local.response.http_status_code = 404
