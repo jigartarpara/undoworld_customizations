@@ -7,7 +7,8 @@ def endpoint(ticket_id):
         return {
             "status": ticket.status,
             "awb_number_pickup": ticket.awb_number_pickup,
-            "awb_number_delivery": ticket.awb_number_delivery
+            "awb_number_delivery": ticket.awb_number_delivery,
+            # "history": ticket.get_history()
 
         }
     except frappe.DoesNotExistError:

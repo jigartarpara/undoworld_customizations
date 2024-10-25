@@ -74,7 +74,10 @@ def get_dn(srn):
         """,
         args,
     )
-    return parent
+    try:
+        return parent[0][0]
+    except: 
+        return None
 
 def get_other_items(serial_number_doc):
     final_data = []

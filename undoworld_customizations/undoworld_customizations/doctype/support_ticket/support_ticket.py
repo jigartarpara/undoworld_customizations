@@ -27,3 +27,6 @@ class SupportTicket(Document):
             args,
         )
         return parent
+    
+    def get_history(self):
+        return {}
