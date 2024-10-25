@@ -57,7 +57,7 @@ def get_history(sr):
     customer = frappe.db.get_value("Delivery Note", dn, "customer")
     if not customer:
         return
-    tickets = frappe.get_all("Support Ticket", {"customer":customer }, ["name as support_ticket","status" ])
+    tickets = frappe.get_all("Support Ticket", {"customer":customer }, ["name as support_ticket","creation","status" ])
     return tickets
 
 def get_dn(srn):
