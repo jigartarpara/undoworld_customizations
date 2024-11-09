@@ -40,7 +40,9 @@
   "pincode",
   "landmark",
   "sb_details",
-  "description"
+  "description",
+  "tracking_section",
+  "status_tracking"
  ],
  "fields": [
   {
@@ -221,11 +223,22 @@
    "fieldname": "customer",
    "fieldtype": "Data",
    "label": "Customer"
+  },
+  {
+   "fieldname": "tracking_section",
+   "fieldtype": "Section Break",
+   "label": "Tracking"
+  },
+  {
+   "fieldname": "status_tracking",
+   "fieldtype": "Table",
+   "label": "Status Tracking",
+   "options": "Status Tracking"
   }
  ],
  "icon": "fa fa-ticket",
  "links": [],
- "modified": "2024-10-22 14:54:06.303374",
+ "modified": "2024-11-09 15:17:00.240649",
  "modified_by": "Administrator",
  "module": "Undoworld Customizations",
  "name": "Support Ticket",
