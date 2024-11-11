@@ -26,6 +26,21 @@ def setup_custom_fields():
 				fieldtype='Data',
 				insert_after='cu_mobile_number'
 			),
+		],
+		"Sales Order": [
+			dict(fieldname='so_status',
+				label='Sales Order Status',
+				fieldtype='Select',
+				options='Pending\nApproved\nCancelled',
+				allow_on_submit=True,
+				insert_after='po_no'
+			),
+			dict(fieldname='so_address',
+				label='Shipping Address',
+				fieldtype='Small Text',
+				allow_on_submit=True,
+				insert_after='so_status'
+			),
 		]
 	}
 	try:
