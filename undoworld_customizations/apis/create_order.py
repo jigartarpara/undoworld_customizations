@@ -19,7 +19,7 @@ def endpoint(mobile_number, customer_name, address,  item_code, rate):
 		customer_doc.insert(ignore_permissions=True)
 		customer =  customer_doc.name
 		
-	make_sales_order(
+	so = make_sales_order(
         company=erpnext.get_default_company(),
         transaction_date=nowdate(),
         customer=customer,
@@ -31,6 +31,7 @@ def endpoint(mobile_number, customer_name, address,  item_code, rate):
         do_not_submit=do_not_submit,
 		address = address
     )
+	return so.name
 
 def make_sales_order(**args):
 	so = frappe.new_doc("Sales Order")
