@@ -40,7 +40,7 @@ def endpoint(mobile_number):
                 "items": items,
                 "order_id": against_sales_order,
                 "posting_date": so_doc.transaction_date if so_doc else "",
-                "develivered_on": dn_doc.transaction_date,
+                "develivered_on": dn_doc.posting_date,
                 "customer_name": dn_doc.customer,
                 "mobile_number": frappe.db.get_value("Customer", dn_doc.customer, "cu_mobile_number"),
                 "email": frappe.db.get_value("Customer", dn_doc.customer, "cu_email")
