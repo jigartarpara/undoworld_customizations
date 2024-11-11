@@ -16,6 +16,7 @@ def endpoint(mobile_number, customer_name, address,  item_code, rate):
 		customer_doc.customer_type = "Individual"
 		customer_doc.customer_group = "All Customer Groups"
 		customer_doc.territory = "All Territories"
+		customer_doc.cu_mobile_number = mobile_number
 		customer_doc.insert(ignore_permissions=True)
 		customer =  customer_doc.name
 		
