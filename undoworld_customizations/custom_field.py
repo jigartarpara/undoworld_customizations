@@ -33,7 +33,7 @@ def setup_custom_fields():
 				fieldtype='Select',
 				options='Pending\nApproved\nCancelled',
 				allow_on_submit=True,
-				insert_after='po_no'
+				insert_after='delivery_date'
 			),
 			dict(fieldname='so_address',
 				label='Shipping Address',
