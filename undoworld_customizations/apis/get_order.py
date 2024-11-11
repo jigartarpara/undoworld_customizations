@@ -18,11 +18,12 @@ def endpoint(mobile_number):
                 warranty_expiry_date = ""
                 custom_imei1 = ""
                 warranty_status = ""
-                for serial_no in item.serial_no.split("\n"):
-                    srn_doc = frappe.get_doc("Serial No", serial_no)
-                    warranty_expiry_date = srn_doc.warranty_expiry_date
-                    custom_imei1 = srn_doc.custom_imei1
-                    warranty_status = set_maintenance_status(srn_doc)
+                if item.serial_no:
+                    for serial_no in item.serial_no.split("\n"):
+                        srn_doc = frappe.get_doc("Serial No", serial_no)
+                        warranty_expiry_date = srn_doc.warranty_expiry_date
+                        custom_imei1 = srn_doc.custom_imei1
+                        warranty_status = set_maintenance_status(srn_doc)
                     
                 items.append({
                    "item_code": item.item_code,
