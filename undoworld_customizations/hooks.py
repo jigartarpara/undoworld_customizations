@@ -116,13 +116,11 @@ after_migrate = "undoworld_customizations.custom_field.setup_custom_fields"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+	"Sales Order": {
+		"on_update": "undoworld_customizations.apis.update_order_status.on_update",
+	}
+}
 
 # Scheduled Tasks
 # ---------------
