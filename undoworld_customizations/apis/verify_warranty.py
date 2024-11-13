@@ -1,7 +1,7 @@
 import frappe
 from frappe.utils import getdate,nowdate
 
-@frappe.whitelist(allow_guest=True)
+@frappe.whitelist()
 def endpoint(serial_number):
     try:
         serial_number_doc = frappe.get_doc("Serial No", serial_number)

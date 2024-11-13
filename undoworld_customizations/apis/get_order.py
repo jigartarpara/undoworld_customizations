@@ -1,7 +1,7 @@
 import frappe
 from frappe.utils import getdate,nowdate
 
-@frappe.whitelist(allow_guest=True,methods="POST")
+@frappe.whitelist(methods="POST")
 def endpoint(mobile_number):
     try:
         customer = frappe.db.get_value("Customer", {"cu_mobile_number": mobile_number})

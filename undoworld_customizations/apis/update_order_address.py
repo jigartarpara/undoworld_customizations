@@ -1,7 +1,7 @@
 import frappe
 from frappe.contacts.doctype.address.address import render_address
 
-@frappe.whitelist(allow_guest=True,methods="POST")
+@frappe.whitelist(methods="POST")
 def endpoint(sales_order, address):
     try:
         so = frappe.get_doc("Sales Order",sales_order)

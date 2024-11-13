@@ -1,6 +1,6 @@
 import frappe
 
-@frappe.whitelist(allow_guest=True,methods="POST")
+@frappe.whitelist(methods="POST")
 def endpoint(sales_order, status):
     if status not in ["Pending", "Approved", "Cancelled"]:
         frappe.local.response.http_status_code = 400

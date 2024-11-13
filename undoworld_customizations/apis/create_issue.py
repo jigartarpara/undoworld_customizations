@@ -3,7 +3,7 @@ from frappe.utils.file_manager import save_file
 
 #fname, content, dt, dn, folder=None, decode=False, is_private=0, df=None
 
-@frappe.whitelist(allow_guest=True,methods="POST")
+@frappe.whitelist(methods="POST")
 def endpoint(**kwargs):
     body = form_body()
     ticket = frappe.get_doc(

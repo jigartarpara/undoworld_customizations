@@ -1,6 +1,6 @@
 import frappe
 
-@frappe.whitelist(allow_guest=True,methods="POST")
+@frappe.whitelist(methods="POST")
 def endpoint(ticket_id):
     try:
         ticket = frappe.get_doc("Support Ticket",ticket_id)
