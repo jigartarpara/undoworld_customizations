@@ -7,7 +7,7 @@ def endpoint(mobile_number):
         customer = frappe.db.get_value("Customer", {"cu_mobile_number": mobile_number})
         if not customer:
             raise frappe.DoesNotExistError
-        dns = frappe.get_all("Delivery Note", {"customer":customer})
+        dns = frappe.get_all("Delivery Note", {"customer":customer, "docstatus": "1"})
         data = []
         for dn in dns:
             dn_doc = frappe.get_doc("Delivery Note", dn['name']) 
