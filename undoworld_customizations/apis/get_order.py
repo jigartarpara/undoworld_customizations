@@ -24,12 +24,12 @@ def endpoint(mobile_number):
                         warranty_expiry_date = srn_doc.warranty_expiry_date
                         custom_imei1 = srn_doc.custom_imei1
                         warranty_status = set_maintenance_status(srn_doc)
-                    
+                image = frappe.db.get_value("Item", item.item_code, "image")   
                 items.append({
                    "item_code": item.item_code,
                    "item_name": item.item_name,
                    "description": item.description,
-                   "image_view": frappe.utils.get_url(item.image) if item.image else "",
+                   "image_view": frappe.utils.get_url(image) if image else "",
                    "warranty_expiry_date": warranty_expiry_date,
                    "imei": custom_imei1,
                    "warranty_status": warranty_status

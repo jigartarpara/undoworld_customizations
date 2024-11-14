@@ -70,7 +70,7 @@ def get_dn(srn):
         from
             `tabDelivery Note Item` dni
         where
-            dni.docstatus <> 2 and 
+            dni.docstatus <> "2" and 
             dni.serial_no like %(serial_no)s
         """,
         args,
