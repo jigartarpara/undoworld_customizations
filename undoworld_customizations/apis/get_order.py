@@ -25,7 +25,7 @@ def endpoint(mobile_number):
                         warranty_expiry_date = srn_doc.warranty_expiry_date
                         custom_imei1 = srn_doc.custom_imei1
                         warranty_status = set_maintenance_status(srn_doc)
-                        history.append({"serial_no":serial_no, "support_ticket" : get_history(serial_no)})
+                        history.append({"serial_no":serial_no, "emei": srn_doc.custom_imei1,"support_ticket" : get_history(serial_no)})
                 image = frappe.db.get_value("Item", item.item_code, "image")   
                 items.append({
                    "item_code": item.item_code,
@@ -72,8 +72,14 @@ def get_history(sr):
     history = []
     for ticket in tickets:
         ticket_doc = frappe.get_doc("Support Ticket",ticket['name'])
+        date = ticket_doc.creation
+        for row in ticket_doc.get_history():
+            if row["status"] == ticket_doc.status:
+                date = row["posting_date"]
         history.append({
             "ticket_id": ticket_doc.name,
+            "status": ticket_doc.status,
+            "status_date": getdate(date),
             "history" : ticket_doc.get_history()
         })
     return history
