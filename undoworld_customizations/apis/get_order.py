@@ -66,31 +66,14 @@ def set_maintenance_status(serial_number_doc):
         return "Under Warranty"
 
 def get_history(sr):
-    dn = get_dn(sr)
-    if not dn:
-        return
-    customer = frappe.db.get_value("Delivery Note", dn, "customer")
-    if not customer:
-        return
-    tickets = frappe.get_all("Support Ticket", {"customer":customer }, ["name as support_ticket","CAST( creation AS DATE) as created","status" ])
-    return tickets
-
-def get_dn(srn):
-    args = {
-        "serial_no": "%%%s%%" % srn,
-    }
-
-    parent = frappe.db.sql(
-        """select parent
-        from
-            `tabDelivery Note Item` dni
-        where
-            dni.docstatus <> "2" and 
-            dni.serial_no like %(serial_no)s
-        """,
-        args,
-    )
-    try:
-        return parent[0][0]
-    except: 
-        return None
+    tickets = frappe.get_all("Support Ticket", {
+        "serial_number":sr 
+    }, ["name","CAST( creation AS DATE) as created","status" ])
+    history = []
+    for ticket in tickets:
+        ticket_doc = frappe.get_doc("Support Ticket",ticket['name'])
+        history.append({
+            "ticket_id": ticket_doc.name,
+            "history" : ticket_doc.get_history()
+        })
+    return history
