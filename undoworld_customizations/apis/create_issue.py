@@ -59,35 +59,125 @@ def endpoint(**kwargs):
         )
         ticket.video_recording = video_file.file_url
     
-    img1 = body.get("img1")
-    if img1:
+    front1 = body.get("front1")
+    if front1:
         video_file = save_file(
-            img1.filename,
-            img1.stream.read(), 
+            front1.filename,
+            front1.stream.read(), 
             "Support Ticket", 
             ticket.name, 
         )
-        ticket.append("support_image_table",{"image_url" : video_file.file_url})
+        ticket.append("support_image_table",{
+            "title": "Front 1",
+            "image_url" : video_file.file_url
+        })
     
-    img2 = body.get("img2")
-    if img2:
+    front2 = body.get("front2")
+    if front2:
         video_file = save_file(
-            img2.filename,
-            img2.stream.read(), 
+            front2.filename,
+            front2.stream.read(), 
             "Support Ticket", 
             ticket.name, 
         )
-        ticket.append("support_image_table",{"image_url" : video_file.file_url})
+        ticket.append("support_image_table",{
+            "title": "Front 2",
+            "image_url" : video_file.file_url
+        })
     
-    img3 = body.get("img3")
-    if img3:
+    front3 = body.get("front3")
+    if front3:
         video_file = save_file(
-            img3.filename,
-            img3.stream.read(), 
+            front3.filename,
+            front3.stream.read(), 
             "Support Ticket", 
             ticket.name, 
         )
-        ticket.append("support_image_table",{"image_url" : video_file.file_url})
+        ticket.append("support_image_table",{
+            "title": "Front 3",
+            "image_url" : video_file.file_url
+        })
+    
+    back1 = body.get("back1")
+    if back1:
+        video_file = save_file(
+            back1.filename,
+            back1.stream.read(), 
+            "Support Ticket", 
+            ticket.name, 
+        )
+        ticket.append("support_image_table",{
+            "title": "Back 1",
+            "image_url" : video_file.file_url
+        })
+    
+    back2 = body.get("back2")
+    if back2:
+        video_file = save_file(
+            back2.filename,
+            back2.stream.read(), 
+            "Support Ticket", 
+            ticket.name, 
+        )
+        ticket.append("support_image_table",{
+            "title": "Back 2",
+            "image_url" : video_file.file_url
+        })
+    
+    back3 = body.get("back3")
+    if back3:
+        video_file = save_file(
+            back3.filename,
+            back3.stream.read(), 
+            "Support Ticket", 
+            ticket.name, 
+        )
+        ticket.append("support_image_table",{
+            "title": "Back 3",
+            "image_url" : video_file.file_url
+        })
+    
+
+    idproof1 = body.get("idproof1")
+    if idproof1:
+        video_file = save_file(
+            idproof1.filename,
+            idproof1.stream.read(), 
+            "Support Ticket", 
+            ticket.name, 
+        )
+        ticket.append("support_image_table",{
+            "title": "IDProof 1",
+            "image_url" : video_file.file_url
+        })
+    
+    idproof2 = body.get("idproof2")
+    if idproof2:
+        video_file = save_file(
+            idproof2.filename,
+            idproof2.stream.read(), 
+            "Support Ticket", 
+            ticket.name, 
+        )
+        ticket.append("support_image_table",{
+            "title": "IDProof 2",
+            "image_url" : video_file.file_url
+        })
+    
+    idproof3 = body.get("idproof3")
+    if idproof3:
+        video_file = save_file(
+            idproof3.filename,
+            idproof3.stream.read(), 
+            "Support Ticket", 
+            ticket.name, 
+        )
+        ticket.append("support_image_table",{
+            "title": "IDProof 3",
+            "image_url" : video_file.file_url
+        })
+    
+    
     
     
     
