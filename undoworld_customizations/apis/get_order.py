@@ -25,7 +25,7 @@ def endpoint(mobile_number):
                         warranty_expiry_date = srn_doc.warranty_expiry_date
                         custom_imei1 = srn_doc.custom_imei1
                         warranty_status = set_maintenance_status(srn_doc)
-                        history.append(get_history(serial_no))
+                        history.append({"serial_no":serial_no, "support_ticket" : get_history(serial_no)})
                 image = frappe.db.get_value("Item", item.item_code, "image")   
                 items.append({
                    "item_code": item.item_code,
