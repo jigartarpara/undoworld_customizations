@@ -15,26 +15,26 @@ def endpoint(mobile_number):
             against_sales_order = ""
             so_doc = None
             for item in dn_doc.items:
-                warranty_expiry_date = ""
-                custom_imei1 = ""
-                warranty_status = ""
                 history = []
                 if item.serial_no:
                     for serial_no in item.serial_no.split("\n"):
                         srn_doc = frappe.get_doc("Serial No", serial_no)
-                        warranty_expiry_date = srn_doc.warranty_expiry_date
-                        custom_imei1 = srn_doc.custom_imei1
-                        warranty_status = set_maintenance_status(srn_doc)
-                        history.append({"serial_no":serial_no, "emei": srn_doc.custom_imei1,"support_ticket" : get_history(serial_no)})
+                        history.append({
+                            "serial_no":serial_no, 
+                            "emei": srn_doc.custom_imei1,
+                            "support_ticket" : get_history(serial_no),
+                            "warranty_expiry_date": srn_doc.warranty_expiry_date,
+                            "warranty_status": set_maintenance_status(srn_doc)
+                        })
                 image = frappe.db.get_value("Item", item.item_code, "image")   
                 items.append({
                    "item_code": item.item_code,
                    "item_name": item.item_name,
                    "description": item.description,
                    "image_view": frappe.utils.get_url(image) if image else "",
-                   "warranty_expiry_date": warranty_expiry_date,
-                   "imei": custom_imei1,
-                   "warranty_status": warranty_status,
+                #    "warranty_expiry_date": warranty_expiry_date,
+                #    "imei": custom_imei1,
+                #    "warranty_status": warranty_status,
                    "history": history
                 })
                 if item.against_sales_order:
