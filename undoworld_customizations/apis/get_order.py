@@ -18,12 +18,14 @@ def endpoint(mobile_number):
                 warranty_expiry_date = ""
                 custom_imei1 = ""
                 warranty_status = ""
+                history = []
                 if item.serial_no:
                     for serial_no in item.serial_no.split("\n"):
                         srn_doc = frappe.get_doc("Serial No", serial_no)
                         warranty_expiry_date = srn_doc.warranty_expiry_date
                         custom_imei1 = srn_doc.custom_imei1
                         warranty_status = set_maintenance_status(srn_doc)
+                        history.append(get_history(serial_no))
                 image = frappe.db.get_value("Item", item.item_code, "image")   
                 items.append({
                    "item_code": item.item_code,
@@ -32,7 +34,8 @@ def endpoint(mobile_number):
                    "image_view": frappe.utils.get_url(image) if image else "",
                    "warranty_expiry_date": warranty_expiry_date,
                    "imei": custom_imei1,
-                   "warranty_status": warranty_status
+                   "warranty_status": warranty_status,
+                   "history": history
                 })
                 if item.against_sales_order:
                    against_sales_order = item.against_sales_order
@@ -61,3 +64,33 @@ def set_maintenance_status(serial_number_doc):
 
     if serial_number_doc.warranty_expiry_date and getdate(serial_number_doc.warranty_expiry_date) >= getdate(nowdate()):
         return "Under Warranty"
+
+def get_history(sr):
+    dn = get_dn(sr)
+    if not dn:
+        return
+    customer = frappe.db.get_value("Delivery Note", dn, "customer")
+    if not customer:
+        return
+    tickets = frappe.get_all("Support Ticket", {"customer":customer }, ["name as support_ticket","CAST( creation AS DATE) as created","status" ])
+    return tickets
+
+def get_dn(srn):
+    args = {
+        "serial_no": "%%%s%%" % srn,
+    }
+
+    parent = frappe.db.sql(
+        """select parent
+        from
+            `tabDelivery Note Item` dni
+        where
+            dni.docstatus <> "2" and 
+            dni.serial_no like %(serial_no)s
+        """,
+        args,
+    )
+    try:
+        return parent[0][0]
+    except: 
+        return None
