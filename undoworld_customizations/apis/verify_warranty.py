@@ -4,6 +4,7 @@ from frappe.utils import getdate,nowdate
 @frappe.whitelist()
 def endpoint(serial_number):
     try:
+        #test
         serial_number_doc = frappe.get_doc("Serial No", serial_number)
         frappe.local.response["status"] = set_maintenance_status(serial_number_doc)
         frappe.local.response["warranty_expiry_date"] = serial_number_doc.warranty_expiry_date
