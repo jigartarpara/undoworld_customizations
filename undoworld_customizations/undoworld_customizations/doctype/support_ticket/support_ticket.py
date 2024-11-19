@@ -40,6 +40,8 @@ class SupportTicket(Document):
         return parent
     def update_history(self):
         if self.has_value_changed("status"):
+            if not self.has_value_changed("status_reason"):
+                self.status_reason = ""
             self.append("status_tracking", {
                 "status": self.status,
                 "posting_date": today(),
