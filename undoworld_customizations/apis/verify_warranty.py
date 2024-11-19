@@ -5,6 +5,11 @@ from frappe.utils import getdate,nowdate
 def endpoint(serial_number):
     try:
         #test
+        srn = frappe.db.get_value("Serial No",{"custom_imei1": serial_number},"name")
+        if not srn:
+            srn = frappe.db.get_value("Serial No",{"custom_imei2": serial_number},"name")
+        if srn:
+            serial_number = srn
         serial_number_doc = frappe.get_doc("Serial No", serial_number)
         frappe.local.response["status"] = set_maintenance_status(serial_number_doc)
         frappe.local.response["warranty_expiry_date"] = serial_number_doc.warranty_expiry_date

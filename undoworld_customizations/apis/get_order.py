@@ -22,6 +22,7 @@ def endpoint(mobile_number):
                         history.append({
                             "serial_no":serial_no, 
                             "emei": srn_doc.custom_imei1,
+                            "imei": srn_doc.custom_imei1,
                             "support_ticket" : get_history(serial_no),
                             "warranty_expiry_date": srn_doc.warranty_expiry_date,
                             "warranty_status": set_maintenance_status(srn_doc)

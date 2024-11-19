@@ -11,7 +11,7 @@ def endpoint(**kwargs):
             "doctype": "Support Ticket",
             "subject": kwargs.get("issue_faced"),
            
-            "serial_number": kwargs.get("serial_number"),
+            "imei": kwargs.get("serial_number"),
             
             
             "customer_name": kwargs.get("customer_name"),

@@ -12,7 +12,9 @@
   "subject_section",
   "naming_series",
   "status",
+  "status_reason",
   "serial_number",
+  "imei",
   "customer",
   "cb00",
   "awb_number_pickup",
@@ -234,11 +236,21 @@
    "fieldtype": "Table",
    "label": "Status Tracking",
    "options": "Status Tracking"
+  },
+  {
+   "fieldname": "status_reason",
+   "fieldtype": "Data",
+   "label": "Status Reason"
+  },
+  {
+   "fieldname": "imei",
+   "fieldtype": "Data",
+   "label": "IMEI"
   }
  ],
  "icon": "fa fa-ticket",
  "links": [],
- "modified": "2024-11-09 15:17:00.240649",
+ "modified": "2024-11-19 16:47:55.877260",
  "modified_by": "Administrator",
  "module": "Undoworld Customizations",
  "name": "Support Ticket",
