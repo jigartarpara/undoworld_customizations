@@ -44,7 +44,8 @@
   "sb_details",
   "description",
   "tracking_section",
-  "status_tracking"
+  "status_tracking",
+  "amended_from"
  ],
  "fields": [
   {
@@ -246,16 +247,27 @@
    "fieldname": "imei",
    "fieldtype": "Data",
    "label": "IMEI"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Support Ticket",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
   }
  ],
  "icon": "fa fa-ticket",
+ "is_submittable": 1,
  "links": [
   {
    "link_doctype": "Clickpost Order",
    "link_fieldname": "support_ticket"
   }
  ],
- "modified": "2024-11-22 13:05:30.396534",
+ "modified": "2024-11-22 15:32:57.176166",
  "modified_by": "Administrator",
  "module": "Undoworld Customizations",
  "name": "Support Ticket",
