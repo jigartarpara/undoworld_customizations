@@ -34,7 +34,7 @@ class SupportTicket(Document):
                 dni.parent
             from
                 `tabDelivery Note Item` dni,
-                `tabDelivery Note as dn
+                `tabDelivery Note` as dn
             where
                 dn.name = dni.parent
                 and dni.serial_no like %(serial_no)s

@@ -75,7 +75,7 @@ def get_dn(srn):
         """select dni.parent
         from
             `tabDelivery Note Item` dni,
-            `tabDelivery Note as dn
+            `tabDelivery Note` as dn
         where
             dn.name = dni.parent and
             dni.docstatus <> "2" and 
