@@ -260,14 +260,13 @@
   }
  ],
  "icon": "fa fa-ticket",
- "is_submittable": 1,
  "links": [
   {
    "link_doctype": "Clickpost Order",
    "link_fieldname": "support_ticket"
   }
  ],
- "modified": "2024-11-22 15:32:57.176166",
+ "modified": "2024-11-22 15:34:02.429952",
  "modified_by": "Administrator",
  "module": "Undoworld Customizations",
  "name": "Support Ticket",
