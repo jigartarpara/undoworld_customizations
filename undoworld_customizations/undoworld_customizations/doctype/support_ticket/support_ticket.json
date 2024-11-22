@@ -75,7 +75,7 @@
    "no_copy": 1,
    "oldfieldname": "status",
    "oldfieldtype": "Select",
-   "options": "Pending\nApproved\nPick Arranged\nIn Transit\nDevice Under Repair\nDevice Out for Delivery\nReject",
+   "options": "Pending\nApproved\nWaiting For Pick Arrange\nPick Arranged\nIn Transit\nDevice Received\nDevice Under Repair\nDevice Out for Delivery\nComplete\nReject",
    "search_index": 1
   },
   {
@@ -249,8 +249,13 @@
   }
  ],
  "icon": "fa fa-ticket",
- "links": [],
- "modified": "2024-11-19 16:47:55.877260",
+ "links": [
+  {
+   "link_doctype": "Clickpost Order",
+   "link_fieldname": "support_ticket"
+  }
+ ],
+ "modified": "2024-11-22 12:58:58.231946",
  "modified_by": "Administrator",
  "module": "Undoworld Customizations",
  "name": "Support Ticket",

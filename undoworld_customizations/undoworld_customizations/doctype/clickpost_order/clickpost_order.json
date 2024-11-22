@@ -9,7 +9,9 @@
  "engine": "InnoDB",
  "field_order": [
   "naming_series",
+  "support_ticket",
   "verified",
+  "pickup_type",
   "column_break_x3pz6",
   "posting_date",
   "posting_time",
@@ -326,12 +328,26 @@
    "fieldname": "api_respone",
    "fieldtype": "Text",
    "label": "API Respone"
+  },
+  {
+   "fieldname": "support_ticket",
+   "fieldtype": "Link",
+   "label": "Support Ticket",
+   "options": "Support Ticket",
+   "read_only": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "pickup_type",
+   "fieldtype": "Select",
+   "label": "Pickup Type",
+   "options": "From Customer\nTo Customer"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-11-09 10:45:23.392087",
+ "modified": "2024-11-22 12:47:02.116900",
  "modified_by": "Administrator",
  "module": "Undoworld Customizations",
  "name": "Clickpost Order",

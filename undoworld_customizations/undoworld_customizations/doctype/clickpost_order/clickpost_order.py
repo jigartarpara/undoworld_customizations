@@ -6,6 +6,7 @@ from frappe.model.document import Document
 import requests
 import json
 from frappe.utils.password import get_decrypted_password
+from frappe.model.mapper import get_mapped_doc
 
 CLICKPOST_URL = "https://www.clickpost.in/api/v3/create-order/"
 
@@ -17,12 +18,13 @@ class ClickpostOrder(Document):
         
     def on_submit(self):
         self.create_clickpost_order()
+        if self.pickup_type == "From Customer" and self.support_ticket:
+            frappe.db.set_value("Support Ticket", self.support_ticket, "status", "Pick Arranged")
+        if self.pickup_type == "To Customer" and self.support_ticket:
+            frappe.db.set_value("Support Ticket", self.support_ticket, "status", "Device Out for Delivery")
     
     def create_clickpost_order(self):
         headers = {
-            "x-api-key": "key_live_6yXxKHeZYNgC6tTQCxEbbOaNme3aIOOM",
-            "x-api-secret": "secret_live_3MtPEBQCuUHXQXQ5BNmKkqhTNPJvI6l2",
-            "x-api-version": "1.0",
         }
         payload = {}
         self.set_payload(payload)
@@ -128,3 +130,22 @@ class ClickpostOrder(Document):
         
         return payload
 
+
+@frappe.whitelist()
+def make_clickpost_doc_from_support_ticket(source_name,target_doc=None):
+    def set_missing_values(source, target):
+        st = frappe.get_doc("Support Ticket", source_name)
+        target.support_ticket = st.name
+        target.pickup_type = "From Customer"
+
+    doclist = get_mapped_doc("Support Ticket", source_name,
+    {
+        "Support Ticket": {
+            "doctype": "Clickpost Order",
+            "field_map": {
+            }
+        },
+
+    }, target_doc,set_missing_values)
+
+    return doclist
