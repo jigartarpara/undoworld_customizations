@@ -132,11 +132,30 @@ class ClickpostOrder(Document):
 
 
 @frappe.whitelist()
-def make_clickpost_doc_from_support_ticket(source_name,target_doc=None):
+def make_clickpost_doc_from_support_ticket_from_customer(source_name,target_doc=None):
     def set_missing_values(source, target):
         st = frappe.get_doc("Support Ticket", source_name)
         target.support_ticket = st.name
         target.pickup_type = "From Customer"
+
+    doclist = get_mapped_doc("Support Ticket", source_name,
+    {
+        "Support Ticket": {
+            "doctype": "Clickpost Order",
+            "field_map": {
+            }
+        },
+
+    }, target_doc,set_missing_values)
+
+    return doclist
+
+@frappe.whitelist()
+def make_clickpost_doc_from_support_ticket_to_customer(source_name,target_doc=None):
+    def set_missing_values(source, target):
+        st = frappe.get_doc("Support Ticket", source_name)
+        target.support_ticket = st.name
+        target.pickup_type = "To Customer"
 
     doclist = get_mapped_doc("Support Ticket", source_name,
     {
