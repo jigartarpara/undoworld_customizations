@@ -72,12 +72,15 @@ def get_dn(srn):
     }
 
     parent = frappe.db.sql(
-        """select parent
+        """select dni.parent
         from
-            `tabDelivery Note Item` dni
+            `tabDelivery Note Item` dni,
+            `tabDelivery Note as dn
         where
+            dn.name = dni.parent and
             dni.docstatus <> "2" and 
             dni.serial_no like %(serial_no)s
+        order by dn.posting_date, dn.posting_time DESC
         """,
         args,
     )
