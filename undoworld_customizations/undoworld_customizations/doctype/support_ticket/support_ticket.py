@@ -4,6 +4,7 @@
 import frappe
 from frappe.model.document import Document
 from frappe.utils import today, now
+from frappe.desk.form import assign_to
 
 class SupportTicket(Document):
     def validate(self):
@@ -13,6 +14,27 @@ class SupportTicket(Document):
             if dn:
                 self.customer = frappe.db.get_value("Delivery Note", dn, "customer")
         self.update_history()
+        self.assigned_user()
+    
+    def assigned_user(self):
+        for row in self.repairing_planning:
+            if row.user:
+                filters = {
+                    "reference_type": self.doctype,
+                    "reference_name": self.name,
+                    "status": "Open",
+                    "allocated_to": row.user,
+                }
+                if not frappe.get_all("ToDo", filters=filters):
+                    assign_to.add(
+                        {
+                            "assign_to": [row.user],
+                            "doctype": self.doctype,
+                            "name": self.name,
+                            "description": "Close this task",
+                        }
+                    )
+
     
     def update_serial_number(self):
         if self.imei:

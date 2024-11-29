@@ -12,6 +12,7 @@
   "subject_section",
   "naming_series",
   "status",
+  "charger_only",
   "status_reason",
   "serial_number",
   "imei",
@@ -45,7 +46,9 @@
   "description",
   "tracking_section",
   "status_tracking",
-  "amended_from"
+  "amended_from",
+  "repair_planning_tab",
+  "repairing_planning"
  ],
  "fields": [
   {
@@ -257,6 +260,23 @@
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "fieldname": "repair_planning_tab",
+   "fieldtype": "Tab Break",
+   "label": "Repair Planning"
+  },
+  {
+   "fieldname": "repairing_planning",
+   "fieldtype": "Table",
+   "label": "Repairing Planning",
+   "options": "Repairing Planning"
+  },
+  {
+   "default": "0",
+   "fieldname": "charger_only",
+   "fieldtype": "Check",
+   "label": "Charger Only"
   }
  ],
  "icon": "fa fa-ticket",
@@ -266,7 +286,7 @@
    "link_fieldname": "support_ticket"
   }
  ],
- "modified": "2024-11-22 15:34:02.429952",
+ "modified": "2024-11-29 16:42:42.314838",
  "modified_by": "Administrator",
  "module": "Undoworld Customizations",
  "name": "Support Ticket",

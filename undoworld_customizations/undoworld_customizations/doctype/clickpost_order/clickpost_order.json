@@ -51,9 +51,10 @@
   "invoice_value",
   "column_break_q3okd",
   "invoice_number",
+  "carrier",
   "courier_partner",
-  "reference_number",
   "account_code",
+  "reference_number",
   "reseller_name",
   "amended_from",
   "api_data_section",
@@ -270,10 +271,11 @@
    "label": "Invoice Number"
   },
   {
+   "fetch_from": "carrier.carrier_code",
    "fieldname": "courier_partner",
-   "fieldtype": "Select",
+   "fieldtype": "Data",
    "label": "Courier Partner",
-   "options": "\n3"
+   "read_only": 1
   },
   {
    "fieldname": "reference_number",
@@ -281,9 +283,11 @@
    "label": "reference_number"
   },
   {
+   "fetch_from": "carrier.account_code",
    "fieldname": "account_code",
    "fieldtype": "Data",
-   "label": "account_code"
+   "label": "account_code",
+   "read_only": 1
   },
   {
    "fieldname": "reseller_name",
@@ -342,12 +346,18 @@
    "fieldtype": "Select",
    "label": "Pickup Type",
    "options": "From Customer\nTo Customer"
+  },
+  {
+   "fieldname": "carrier",
+   "fieldtype": "Link",
+   "label": "Carrier",
+   "options": "Carrier"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-11-22 12:47:02.116900",
+ "modified": "2024-11-29 14:23:06.114989",
  "modified_by": "Administrator",
  "module": "Undoworld Customizations",
  "name": "Clickpost Order",
