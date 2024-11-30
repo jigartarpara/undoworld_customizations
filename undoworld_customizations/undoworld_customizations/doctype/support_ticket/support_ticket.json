@@ -270,7 +270,7 @@
    "fieldname": "repairing_planning",
    "fieldtype": "Table",
    "label": "Repairing Planning",
-   "options": "Repairing Planning"
+   "options": "Repair Planning"
   },
   {
    "default": "0",
@@ -286,7 +286,7 @@
    "link_fieldname": "support_ticket"
   }
  ],
- "modified": "2024-11-29 16:42:42.314838",
+ "modified": "2024-11-30 12:48:53.464509",
  "modified_by": "Administrator",
  "module": "Undoworld Customizations",
  "name": "Support Ticket",
