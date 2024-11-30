@@ -53,14 +53,14 @@ class SupportTicket(Document):
         parent = frappe.db.sql(
             """
             select 
-                dni.parent
+                dn.name
             from
                 `tabDelivery Note Item` as dni,
                 `tabDelivery Note` as dn
             where
                 dn.name = dni.parent
                 and dni.serial_no like %(serial_no)s
-            order by dn.posting_date, dn.posting_time DESC
+            order by dn.posting_date DESC
             """,
             args,
         )
