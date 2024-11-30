@@ -8,8 +8,8 @@
  "engine": "InnoDB",
  "field_order": [
   "repairing_level",
-  "user_doc",
-  "status"
+  "status",
+  "user_doc"
  ],
  "fields": [
   {
@@ -37,7 +37,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-11-30 12:26:14.994621",
+ "modified": "2024-11-30 12:37:04.856936",
  "modified_by": "Administrator",
  "module": "Undoworld Customizations",
  "name": "Repairing Planning",
