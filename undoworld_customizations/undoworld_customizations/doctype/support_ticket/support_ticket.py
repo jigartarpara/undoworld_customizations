@@ -71,7 +71,7 @@ class SupportTicket(Document):
             if not self.has_value_changed("status_reason"):
                 self.status_reason = ""
             self.append("status_tracking", {
-                "status_level": self.status,
+                "status": self.status,
                 "posting_date": today(),
                 "posting_time": now(),
                 "remark": self.status_reason
@@ -80,7 +80,7 @@ class SupportTicket(Document):
         data = []
         for row in self.status_tracking:
             data.append({
-                "status": row.status_level,
+                "status": row.status,
                 "posting_date": row.posting_date,
                 "posting_time": row.posting_time,
                 "remark": row.remark
