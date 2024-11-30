@@ -137,12 +137,15 @@ def make_clickpost_doc_from_support_ticket_from_customer(source_name,target_doc=
         st = frappe.get_doc("Support Ticket", source_name)
         target.support_ticket = st.name
         target.pickup_type = "From Customer"
+        target.pickup_address = str(st.house_number ) + " " + str(st.street_line_1) + " " + str(st.street_line_2)+ " " + str(st.street_line_2)
+        
 
     doclist = get_mapped_doc("Support Ticket", source_name,
     {
         "Support Ticket": {
             "doctype": "Clickpost Order",
             "field_map": {
+                "state":"pickup_state"
             }
         },
 
@@ -156,12 +159,14 @@ def make_clickpost_doc_from_support_ticket_to_customer(source_name,target_doc=No
         st = frappe.get_doc("Support Ticket", source_name)
         target.support_ticket = st.name
         target.pickup_type = "To Customer"
+        target.pickup_address = str(st.house_number ) + " " + str(st.street_line_1) + " " + str(st.street_line_2)+ " " + str(st.street_line_2)
 
     doclist = get_mapped_doc("Support Ticket", source_name,
     {
         "Support Ticket": {
             "doctype": "Clickpost Order",
             "field_map": {
+                "state":"pickup_state"
             }
         },
 
