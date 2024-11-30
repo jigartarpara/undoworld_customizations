@@ -18,17 +18,17 @@ class SupportTicket(Document):
     
     def assigned_user(self):
         for row in self.repairing_planning:
-            if row.user:
+            if row.user_doc:
                 filters = {
                     "reference_type": self.doctype,
                     "reference_name": self.name,
                     "status": "Open",
-                    "allocated_to": row.user,
+                    "allocated_to": row.user_doc,
                 }
                 if not frappe.get_all("ToDo", filters=filters):
                     assign_to.add(
                         {
-                            "assign_to": [row.user],
+                            "assign_to": [row.user_doc],
                             "doctype": self.doctype,
                             "name": self.name,
                             "description": "Close this task",
@@ -55,7 +55,7 @@ class SupportTicket(Document):
             select 
                 dni.parent
             from
-                `tabDelivery Note Item` dni,
+                `tabDelivery Note Item` as dni,
                 `tabDelivery Note` as dn
             where
                 dn.name = dni.parent
@@ -64,6 +64,7 @@ class SupportTicket(Document):
             """,
             args,
         )
+        print("Helllooo")
         return parent
     def update_history(self):
         if self.has_value_changed("status"):
