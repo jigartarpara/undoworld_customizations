@@ -80,7 +80,7 @@ def get_dn(srn):
             dn.name = dni.parent and
             dni.docstatus <> "2" and 
             dni.serial_no like %(serial_no)s
-        order by dn.posting_date, dn.posting_time DESC
+        order by dn.posting_date DESC
         """,
         args,
     )
