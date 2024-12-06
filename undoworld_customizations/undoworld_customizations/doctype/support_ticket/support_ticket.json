@@ -35,13 +35,14 @@
   "audio_recording",
   "video_recording",
   "column_break_ohqtn",
-  "support_image_table",
   "house_number",
   "street_line_1",
   "street_line_2",
   "state",
   "pincode",
   "landmark",
+  "section_break_p3yvt",
+  "support_image_table",
   "sb_details",
   "description",
   "tracking_section",
@@ -277,6 +278,10 @@
    "fieldname": "charger_only",
    "fieldtype": "Check",
    "label": "Charger Only"
+  },
+  {
+   "fieldname": "section_break_p3yvt",
+   "fieldtype": "Section Break"
   }
  ],
  "icon": "fa fa-ticket",
@@ -286,7 +291,7 @@
    "link_fieldname": "support_ticket"
   }
  ],
- "modified": "2024-11-30 12:48:53.464509",
+ "modified": "2024-12-06 17:34:37.373456",
  "modified_by": "Administrator",
  "module": "Undoworld Customizations",
  "name": "Support Ticket",
