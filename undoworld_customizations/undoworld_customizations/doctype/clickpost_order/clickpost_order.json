@@ -56,6 +56,7 @@
   "account_code",
   "reference_number",
   "reseller_name",
+  "rvp_reason",
   "amended_from",
   "api_data_section",
   "payload",
@@ -352,12 +353,17 @@
    "fieldtype": "Link",
    "label": "Carrier",
    "options": "Carrier"
+  },
+  {
+   "fieldname": "rvp_reason",
+   "fieldtype": "Data",
+   "label": "rvp_reason"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-11-30 13:40:25.562170",
+ "modified": "2024-11-30 16:54:06.529556",
  "modified_by": "Administrator",
  "module": "Undoworld Customizations",
  "name": "Clickpost Order",

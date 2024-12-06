@@ -179,7 +179,7 @@ def endpoint(**kwargs):
     
     
     
-    
+    ticket.ignore_permissions = True
     
     ticket.save()
     return ticket.name

@@ -7,6 +7,7 @@ import requests
 import json
 from frappe.utils.password import get_decrypted_password
 from frappe.model.mapper import get_mapped_doc
+from frappe.utils import flt
 
 CLICKPOST_URL = "https://www.clickpost.in/api/v3/create-order/"
 
@@ -39,6 +40,15 @@ class ClickpostOrder(Document):
         payload["drop_info"] = self.get_dropinfo()
         payload["pickup_info"] = self.get_pickup_info()
         payload["shipment_details"] = self.get_shipment_details()
+        payload["additional"] = self.get_additional_details()
+        payload["IsReversePickup"] = True
+        payload["IsToPayCustomer"] = True
+        payload["RegisterPickup"] = True
+    
+    def get_additional_details(self):
+        additional_details = {}
+        additional_details["rvp_reason"] = self.rvp_reason
+        return additional_details
     
     def get_dropinfo(self):
         drop_payload =  {}
@@ -79,10 +89,10 @@ class ClickpostOrder(Document):
     
     def get_shipment_details(self):
         shipment_payload =  {}
-        shipment_payload['height'] = self.height
-        shipment_payload['length'] = self.length
-        shipment_payload['weight'] = self.weight
-        shipment_payload['breadth'] = self.breadth
+        shipment_payload['height'] = flt(self.height)
+        shipment_payload['length'] = flt(self.length)
+        shipment_payload['weight'] = flt(self.weight)
+        shipment_payload['breadth'] = flt(self.breadth)
         shipment_payload['order_id'] = self.order_id
         shipment_payload['cod_value'] = self.cod_value
         shipment_payload['order_type'] = self.order_type
@@ -115,12 +125,12 @@ class ClickpostOrder(Document):
             item['product_url'] =  row.product_url
             item['return_days'] =  row.return_days
             item['exchange_days'] =  row.exchange_days
-            item['length'] =  row.length
-            item['breadth'] =  row.breadth
-            item['height'] =  row.height
+            item['length'] =  flt(row.length)
+            item['breadth'] =  flt(row.breadth)
+            item['height'] =  flt(row.height)
             item['brand'] =  row.brand
             item['color'] =  row.color
-            item['size'] =  row.size
+            item['size'] =  flt(row.size)
             item['serial_no'] =  row.serial_no
             item['emei'] =  row.emei
             item['ean'] =  row.ean
