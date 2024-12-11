@@ -88,6 +88,19 @@ def make_sales_order(**args):
                 "rate": row.get("rate"),
             },
         )
+        for addon in row.addons:
+            so.append(
+                "items",
+                {
+                    "item_code": addon.get("item_code") ,
+                    "margin_type": "",
+                    "is_addons": True,
+                    "addons_for": row.get("item_code"),
+                    "qty": addon.get("qty") ,
+                    "rate": addon.get("rate"),
+                },
+            )
+
     if args.gst:
         so.append("taxes", {
             "charge_type": "On Net Total",

@@ -41,6 +41,18 @@ def setup_custom_fields():
 				allow_on_submit=True,
 				insert_after='so_status'
 			),
+		],
+		"Sales Order Item": [
+			dict(fieldname='is_addons',
+				label='Is Addons',
+				fieldtype='Check',
+				insert_after='item_code'
+			),
+			dict(fieldname='addons_for',
+				label='Addons For',
+				fieldtype='Data',
+				insert_after='is_addons'
+			),
 		]
 	}
 	try:
