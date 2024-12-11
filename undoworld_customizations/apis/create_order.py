@@ -88,7 +88,8 @@ def make_sales_order(**args):
                 "rate": row.get("rate"),
             },
         )
-        for addon in row.addons:
+        print(row)
+        for addon in row.get("addons"):
             so.append(
                 "items",
                 {
