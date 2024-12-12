@@ -14,7 +14,10 @@ CLICKPOST_URL = "https://www.clickpost.in/api/v3/create-order/"
 class ClickpostOrder(Document):
     def validate(self):
         payload = {}
-        self.set_payload(payload)
+        if self.pickup_type == "To Customer":
+            self.set_payload_to_customer(payload)
+        if self.pickup_type == "From Customer":
+            self.set_payload_from_customer(payload)
         self.payload = json.dumps(payload, indent=4)
         
     def on_submit(self):
@@ -28,15 +31,27 @@ class ClickpostOrder(Document):
         headers = {
         }
         payload = {}
-        self.set_payload(payload)
+        if self.pickup_type == "To Customer":
+            self.set_payload_to_customer(payload)
+        if self.pickup_type == "From Customer":
+            self.set_payload_from_customer(payload)
         params = {
             'username': frappe.db.get_single_value('Clickpost Setup', 'username'),
             'key': get_decrypted_password("Clickpost Setup", "Clickpost Setup", fieldname="key"),
         }
         order_response = requests.post(CLICKPOST_URL, headers=headers,json=payload, params=params)
-        self.api_respone = order_response.text
+        # self.api_respone = order_response.text
+        frappe.db.set_value("Clickpost Order", self.name, "api_respone", order_response.text)
     
-    def set_payload(self, payload):
+    def set_payload_from_customer(self, payload):
+        payload["drop_info"] = self.get_dropinfo()
+        payload["pickup_info"] = self.get_pickup_info()
+        payload["shipment_details"] = self.get_shipment_details()
+        payload["additional"] = self.get_additional_details()
+        payload["IsReversePickup"] = True
+        payload["IsToPayCustomer"] = True
+        payload["RegisterPickup"] = True
+    def set_payload_to_customer(self, payload):
         payload["drop_info"] = self.get_dropinfo()
         payload["pickup_info"] = self.get_pickup_info()
         payload["shipment_details"] = self.get_shipment_details()
@@ -48,6 +63,11 @@ class ClickpostOrder(Document):
     def get_additional_details(self):
         additional_details = {}
         additional_details["rvp_reason"] = self.rvp_reason
+        additional_details["async"] = False
+        additional_details["label"] = True
+        # additional_details["vendor_code"] = "ABC"
+        # additional_details["zone"] = "ABC"
+        
         return additional_details
     
     def get_dropinfo(self):
@@ -76,6 +96,7 @@ class ClickpostOrder(Document):
         pickup_payload['pickup_name'] = self.pickup_name
         pickup_payload['pickup_time'] = self.pickup_time
         pickup_payload['pickup_email'] = self.pickup_email
+        pickup_payload['email'] = self.pickup_email
         pickup_payload['pickup_phone'] = self.pickup_phone
         pickup_payload['pickup_state'] = self.pickup_state
         pickup_payload['pickup_address'] = self.pickup_address

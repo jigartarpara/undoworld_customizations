@@ -6,7 +6,7 @@ from erpnext.manufacturing.doctype.work_order.work_order import get_default_ware
 
 
 @frappe.whitelist(methods="POST")
-def endpoint(mobile_number, customer_name, address,  item_codes,discount = None, gst=0, shipping_charge=0):
+def endpoint(mobile_number, customer_name, address,  item_codes,shipping_address,discount = None, gst=0, shipping_charge=0):
     default_warehouses = get_default_warehouse()
     do_not_save = False
     do_not_submit = False
@@ -23,7 +23,8 @@ def endpoint(mobile_number, customer_name, address,  item_codes,discount = None,
     else:
         frappe.db.set_value("Customer", customer, "customer_name", customer_name)
     
-    address_doc = create_addres(address, customer)
+    address_doc = create_addres(address, customer, "Billing")
+    shipping_address_doc = create_addres(shipping_address, customer, "Shipping")
         
     so = make_sales_order(
         company=erpnext.get_default_company(),
@@ -35,14 +36,15 @@ def endpoint(mobile_number, customer_name, address,  item_codes,discount = None,
         do_not_save=do_not_save,
         do_not_submit=do_not_submit,
         address = address_doc,
+        shipping_address = shipping_address_doc,
         gst=gst,
         shipping_charge=shipping_charge,
         discount= discount
     )
     return so.name
-def create_addres(address, customer):
+def create_addres(address, customer, add_type):
     address_doc = frappe.new_doc("Address")
-    address_doc.address_type= "Shipping"
+    address_doc.address_type= add_type
     address_doc.address_title = customer
     address_doc.address_line1 = address.get("address_line1")
     address_doc.address_line2 = address.get("address_line2")
@@ -70,7 +72,7 @@ def make_sales_order(**args):
     so.customer = args.customer 
     so.currency = "INR"
     so.po_no = args.po_no or ""
-    so.shipping_address_name = args.address
+    so.shipping_address_name = args.shipping_address
     so.customer_address = args.address
     if args.selling_price_list:
         so.selling_price_list = args.selling_price_list
