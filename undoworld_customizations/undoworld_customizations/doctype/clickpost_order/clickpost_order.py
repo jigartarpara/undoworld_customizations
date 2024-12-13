@@ -133,7 +133,7 @@ class ClickpostOrder(Document):
             item = {}
             item['sku'] =  row.sku
             item['price'] =  row.price
-            item['weight'] =  row.weight
+            item['weight'] =  flt(row.weight)
             item['hs_code'] =  row.hs_code
             item['quantity'] =  row.quantity
             item['description'] =  row.description
