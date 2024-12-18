@@ -38,6 +38,7 @@
   "house_number",
   "street_line_1",
   "street_line_2",
+  "city",
   "state",
   "pincode",
   "landmark",
@@ -282,6 +283,11 @@
   {
    "fieldname": "section_break_p3yvt",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "label": "City"
   }
  ],
  "icon": "fa fa-ticket",
@@ -291,7 +297,7 @@
    "link_fieldname": "support_ticket"
   }
  ],
- "modified": "2024-12-06 17:34:37.373456",
+ "modified": "2024-12-18 14:27:57.438029",
  "modified_by": "Administrator",
  "module": "Undoworld Customizations",
  "name": "Support Ticket",

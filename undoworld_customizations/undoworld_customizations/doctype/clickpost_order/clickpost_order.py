@@ -223,7 +223,9 @@ def make_clickpost_doc_from_support_ticket_from_customer(source_name,target_doc=
         "Support Ticket": {
             "doctype": "Clickpost Order",
             "field_map": {
-                "state":"pickup_state"
+                "state":"pickup_state",
+                "city": "pickup_city",
+                "pincode": "pickup_pincode",
             }
         },
 
@@ -244,7 +246,10 @@ def make_clickpost_doc_from_support_ticket_to_customer(source_name,target_doc=No
         "Support Ticket": {
             "doctype": "Clickpost Order",
             "field_map": {
-                "state":"pickup_state"
+                "state":"pickup_state",
+                "city": "pickup_city",
+                "city": "pickup_city",
+                "pincode": "pickup_pincode",
             }
         },
 
