@@ -40,24 +40,32 @@ class ClickpostOrder(Document):
             'key': get_decrypted_password("Clickpost Setup", "Clickpost Setup", fieldname="key"),
         }
         order_response = requests.post(CLICKPOST_URL, headers=headers,json=payload, params=params)
-        # self.api_respone = order_response.text
+        response = order_response.json()
+        if not response['meta']['success']:
+            frappe.throw("Click Post Order Creation Failed"+order_response.text)
         frappe.db.set_value("Clickpost Order", self.name, "api_respone", order_response.text)
+        if response.get('result'):
+            result = response.get('result')
+            frappe.db.set_value("Clickpost Order", self.name, "label", result.get("label"))
+            frappe.db.set_value("Clickpost Order", self.name, "waybill", result.get("waybill"))
+            frappe.db.set_value("Clickpost Order", self.name, "token_number", result.get("token_number"))
+            frappe.db.set_value("Clickpost Order", self.name, "tracking_id", response.get("tracking_id"))
     
     def set_payload_from_customer(self, payload):
-        payload["drop_info"] = self.get_dropinfo()
-        payload["pickup_info"] = self.get_pickup_info()
+        payload["drop_info"] = self.get_dropinfo_from_customer()
+        payload["pickup_info"] = self.get_pickup_info_from_customer()
         payload["shipment_details"] = self.get_shipment_details()
         payload["additional"] = self.get_additional_details()
         payload["IsReversePickup"] = True
         payload["IsToPayCustomer"] = True
         payload["RegisterPickup"] = True
     def set_payload_to_customer(self, payload):
-        payload["drop_info"] = self.get_dropinfo()
-        payload["pickup_info"] = self.get_pickup_info()
+        payload["drop_info"] = self.get_dropinfo_to_customer()
+        payload["pickup_info"] = self.get_pickup_info_to_customer()
         payload["shipment_details"] = self.get_shipment_details()
         payload["additional"] = self.get_additional_details()
-        payload["IsReversePickup"] = True
-        payload["IsToPayCustomer"] = True
+        payload["IsReversePickup"] = False
+        payload["IsToPayCustomer"] = False
         payload["RegisterPickup"] = True
     
     def get_additional_details(self):
@@ -70,7 +78,7 @@ class ClickpostOrder(Document):
         
         return additional_details
     
-    def get_dropinfo(self):
+    def get_dropinfo_from_customer(self):
         drop_payload =  {}
         if self.drop_location:
             drop_location = frappe.get_doc("Drop Location",self.drop_location)
@@ -89,7 +97,7 @@ class ClickpostOrder(Document):
             drop_payload['drop_address_type'] = drop_location.drop_address_type
         return drop_payload
     
-    def get_pickup_info(self):
+    def get_pickup_info_from_customer(self):
         pickup_payload =  {}
         pickup_payload['pickup_lat'] = self.pickup_lat
         pickup_payload['pickup_long'] = self.pickup_long
@@ -107,6 +115,45 @@ class ClickpostOrder(Document):
         pickup_payload['pickup_country'] = self.pickup_country
         pickup_payload['pickup_address_type'] = self.pickup_address_type
         return pickup_payload
+    def get_dropinfo_to_customer(self):
+        drop_payload =  {}
+        if self.drop_location:
+            
+            drop_payload['drop_lat'] = self.pickup_lat
+            drop_payload['drop_long'] = self.pickup_long
+            # drop_payload['drop_city'] = self.pickup_name
+            drop_payload['drop_name'] = self.pickup_name
+            drop_payload['drop_email'] = self.pickup_email
+            drop_payload['drop_phone'] = self.pickup_phone
+            drop_payload['drop_state'] = self.pickup_state
+            drop_payload['drop_address'] = self.pickup_address
+            drop_payload['drop_district'] = self.pickup_district
+            drop_payload['drop_landmark'] = self.pickup_landmark
+            drop_payload['drop_pincode'] = self.pickup_pincode
+            drop_payload['drop_country'] = self.pickup_country
+            drop_payload['drop_address_type'] = self.pickup_address_type
+        return drop_payload
+    
+    def get_pickup_info_to_customer(self):
+        pickup_payload =  {}
+        drop_location = frappe.get_doc("Drop Location",self.drop_location)
+        # drop_location.drop_city
+        pickup_payload['pickup_lat'] = drop_location.drop_lat
+        pickup_payload['pickup_long'] = drop_location.drop_long
+        pickup_payload['pickup_name'] = drop_location.drop_name
+        pickup_payload['pickup_time'] = self.pickup_time
+        pickup_payload['pickup_email'] = drop_location.drop_email
+        pickup_payload['email'] = drop_location.drop_email
+        pickup_payload['pickup_phone'] = drop_location.drop_phone
+        pickup_payload['pickup_state'] = drop_location.drop_state
+        pickup_payload['pickup_address'] = drop_location.drop_address
+        pickup_payload['pickup_district'] = drop_location.drop_district
+        pickup_payload['pickup_landmark'] = drop_location.drop_landmark
+        # pickup_payload['pickup_phone_code'] = self.pickup_phone_code
+        pickup_payload['pickup_pincode'] = drop_location.drop_pincode
+        pickup_payload['pickup_country'] = drop_location.drop_country
+        pickup_payload['pickup_address_type'] = drop_location.drop_address_type
+        return pickup_payload
     
     def get_shipment_details(self):
         shipment_payload =  {}
@@ -122,7 +169,7 @@ class ClickpostOrder(Document):
         shipment_payload['invoice_value'] = self.invoice_value
         shipment_payload['invoice_number'] = self.invoice_number
         shipment_payload['courier_partner'] = self.courier_partner
-        shipment_payload['reference_number'] = self.reference_number
+        shipment_payload['reference_number'] = self.name
         shipment_payload['account_code'] = self.account_code
         shipment_payload['items'] = self.get_shipment_items()
         return shipment_payload

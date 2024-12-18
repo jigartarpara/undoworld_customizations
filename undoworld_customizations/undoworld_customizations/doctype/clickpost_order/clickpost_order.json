@@ -60,7 +60,13 @@
   "amended_from",
   "api_data_section",
   "payload",
-  "api_respone"
+  "api_respone",
+  "order_data_section",
+  "label",
+  "waybill",
+  "column_break_uhuqj",
+  "token_number",
+  "tracking_id"
  ],
  "fields": [
   {
@@ -332,7 +338,8 @@
    "allow_on_submit": 1,
    "fieldname": "api_respone",
    "fieldtype": "Text",
-   "label": "API Respone"
+   "label": "API Respone",
+   "read_only": 1
   },
   {
    "fieldname": "support_ticket",
@@ -358,12 +365,41 @@
    "fieldname": "rvp_reason",
    "fieldtype": "Data",
    "label": "rvp_reason"
+  },
+  {
+   "fieldname": "order_data_section",
+   "fieldtype": "Tab Break",
+   "label": "Order Data"
+  },
+  {
+   "fieldname": "label",
+   "fieldtype": "Attach",
+   "label": "Label"
+  },
+  {
+   "fieldname": "waybill",
+   "fieldtype": "Data",
+   "label": "Waybill"
+  },
+  {
+   "fieldname": "token_number",
+   "fieldtype": "Data",
+   "label": "Token Number"
+  },
+  {
+   "fieldname": "tracking_id",
+   "fieldtype": "Data",
+   "label": "Tracking Id"
+  },
+  {
+   "fieldname": "column_break_uhuqj",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-11-30 16:54:06.529556",
+ "modified": "2024-12-17 19:30:20.357928",
  "modified_by": "Administrator",
  "module": "Undoworld Customizations",
  "name": "Clickpost Order",
