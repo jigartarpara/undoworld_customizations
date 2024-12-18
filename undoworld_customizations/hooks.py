@@ -120,6 +120,8 @@ after_migrate = "undoworld_customizations.custom_field.setup_custom_fields"
 doc_events = {
 	"Sales Order": {
 		"on_update": "undoworld_customizations.apis.sales_order_update.on_update",
+		"on_update_after_submit": "undoworld_customizations.apis.sales_order_update.on_update",
+        
 	},
     "Stock Entry": {
         "on_submit": "undoworld_customizations.apis.stock_entry.on_submit"
