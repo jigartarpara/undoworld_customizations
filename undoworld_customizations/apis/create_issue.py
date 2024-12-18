@@ -28,6 +28,7 @@ def endpoint(**kwargs):
             "house_number": kwargs.get("house_number"),
             "street_line_1": kwargs.get("street_line_1"),
             "street_line_2": kwargs.get("street_line_2"),
+            "city": kwargs.get("city"),
             "state": kwargs.get("state"),
             "pincode": kwargs.get("pincode"),
             "landmark": kwargs.get("landmark"),
