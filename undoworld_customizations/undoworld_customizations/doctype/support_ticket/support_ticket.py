@@ -52,20 +52,23 @@ class SupportTicket(Document):
 
         parent = frappe.db.sql(
             """
-            select 
-                dn.name
+            select dni.parent
             from
-                `tabDelivery Note Item` as dni,
+                `tabDelivery Note Item` dni,
                 `tabDelivery Note` as dn
             where
-                dn.name = dni.parent
-                and dni.serial_no like %(serial_no)s
+                dn.name = dni.parent and
+                dni.docstatus <> "2" and 
+                dni.serial_no like %(serial_no)s
             order by dn.posting_date DESC
             """,
             args,
         )
         print("Helllooo")
-        return parent
+        try:
+            return parent[0][0]
+        except:
+            return None
     def update_history(self):
         if self.has_value_changed("status"):
             if not self.has_value_changed("status_reason"):
