@@ -5,9 +5,7 @@ from frappe.utils import getdate,nowdate
 def endpoint(serial_number):
     try:
         #test
-        srn = frappe.db.get_value("Serial No",{"custom_imei1": serial_number},"name")
-        if not srn:
-            srn = frappe.db.get_value("Serial No",{"custom_imei2": serial_number},"name")
+        srn = get_srn(serial_number)
         if srn:
             serial_number = srn
         serial_number_doc = frappe.get_doc("Serial No", serial_number)
@@ -47,6 +45,30 @@ def endpoint(serial_number):
         frappe.local.response["data"] = ""
         frappe.local.response.http_status_code = 404
         return "Invalid Serial Number"
+def get_srn(imei):
+    args = {
+        "custom_imei1": "%%%s%%" % imei,
+        "custom_imei2": "%%%s%%" % imei,
+    }
+
+    parent = frappe.db.sql(
+        """
+        select srn.name
+        from
+            `tabSerial No` as srn
+        where
+            srn.custom_imei1 = %(custom_imei1)s
+            or 
+            srn.custom_imei2 = %(custom_imei2)s
+        order by srn.creation DESC
+        """,
+        args,
+    )
+    print("Helllooo")
+    try:
+        return parent[0][0]
+    except:
+        return None
 def set_maintenance_status(serial_number_doc):
 
     if serial_number_doc.warranty_expiry_date and getdate(serial_number_doc.warranty_expiry_date) < getdate(nowdate()):

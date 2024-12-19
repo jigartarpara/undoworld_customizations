@@ -38,11 +38,34 @@ class SupportTicket(Document):
     
     def update_serial_number(self):
         if self.imei:
-            srn = frappe.db.get_value("Serial No",{"custom_imei1": self.imei},"name")
-            if not srn:
-                srn = frappe.db.get_value("Serial No",{"custom_imei2": self.imei},"name")
+            srn = self.get_srn()
             if srn:
                 self.serial_number = srn
+    
+    def get_srn(self):
+        args = {
+            "custom_imei1": "%%%s%%" % self.imei,
+            "custom_imei2": "%%%s%%" % self.imei,
+        }
+
+        parent = frappe.db.sql(
+            """
+            select srn.name
+            from
+                `tabSerial No` as srn
+            where
+                srn.custom_imei1 = %(custom_imei1)s
+                or 
+                srn.custom_imei2 = %(custom_imei2)s
+            order by srn.creation DESC
+            """,
+            args,
+        )
+        print("Helllooo")
+        try:
+            return parent[0][0]
+        except:
+            return None
 
     
     def get_dn(self, srn):
