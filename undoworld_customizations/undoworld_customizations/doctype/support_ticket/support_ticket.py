@@ -44,8 +44,8 @@ class SupportTicket(Document):
     
     def get_srn(self):
         args = {
-            "custom_imei1": "%%%s%%" % self.imei,
-            "custom_imei2": "%%%s%%" % self.imei,
+            "custom_imei1": "%s" % self.imei,
+            "custom_imei2": "%s" % self.imei,
         }
 
         parent = frappe.db.sql(

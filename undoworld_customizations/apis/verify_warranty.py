@@ -47,8 +47,8 @@ def endpoint(serial_number):
         return "Invalid Serial Number"
 def get_srn(imei):
     args = {
-        "custom_imei1": "%%%s%%" % imei,
-        "custom_imei2": "%%%s%%" % imei,
+        "custom_imei1": "%s" % imei,
+        "custom_imei2": "%s" % imei,
     }
 
     parent = frappe.db.sql(
