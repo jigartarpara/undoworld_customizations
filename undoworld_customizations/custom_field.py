@@ -41,6 +41,30 @@ def setup_custom_fields():
 				allow_on_submit=True,
 				insert_after='so_status'
 			),
+			dict(fieldname='payment_type_un',
+				label='Payment Type',
+				fieldtype='Data',
+				allow_on_submit=True,
+				insert_after='so_address'
+			),
+			dict(fieldname='payment_amount_un',
+				label='Payment Amount',
+				fieldtype='Data',
+				allow_on_submit=True,
+				insert_after='payment_type_un'
+			),
+			dict(fieldname='paymentmethod',
+				label='Payment Method',
+				fieldtype='Data',
+				allow_on_submit=True,
+				insert_after='payment_amount_un'
+			),
+			dict(fieldname='payment_status',
+				label='Payment Status',
+				fieldtype='Data',
+				allow_on_submit=True,
+				insert_after='paymentmethod'
+			),
 		],
 		"Sales Order Item": [
 			dict(fieldname='is_addons',

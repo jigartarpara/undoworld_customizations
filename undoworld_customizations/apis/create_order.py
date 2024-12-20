@@ -6,10 +6,10 @@ from erpnext.manufacturing.doctype.work_order.work_order import get_default_ware
 
 
 @frappe.whitelist(methods="POST")
-def endpoint(mobile_number, customer_name, address,  item_codes,shipping_address,discount = None, gst=0, shipping_charge=0):
+def endpoint(mobile_number, customer_name, address,  item_codes,shipping_address,payment=None, discount = None, gst=0, shipping_charge=0):
     default_warehouses = get_default_warehouse()
-    do_not_save = False
-    do_not_submit = False
+    do_not_save = True
+    do_not_submit = True
     customer = frappe.db.get_value("Customer", {"cu_mobile_number": mobile_number}, "name")
     if not customer:
         customer_doc = frappe.new_doc("Customer")
@@ -41,6 +41,14 @@ def endpoint(mobile_number, customer_name, address,  item_codes,shipping_address
         shipping_charge=shipping_charge,
         discount= discount
     )
+    so.payment_type_un = payment.get("paymenttype")
+    so.payment_amount_un = payment.get("amount")
+    so.paymentmethod = payment.get("paymentmethod")
+    so.payment_status = payment.get("status")
+    so.flags.ignore_permissions = True
+    so.save()
+    so.flags.ignore_permissions = True
+    so.submit()
     return so.name
 def create_addres(address, customer, add_type):
     address_doc = frappe.new_doc("Address")
