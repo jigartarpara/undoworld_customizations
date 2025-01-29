@@ -10,6 +10,7 @@
  "field_order": [
   "naming_series",
   "support_ticket",
+  "sales_order",
   "verified",
   "pickup_type",
   "column_break_x3pz6",
@@ -394,12 +395,18 @@
   {
    "fieldname": "column_break_uhuqj",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sales_order",
+   "fieldtype": "Link",
+   "label": "Sales Order",
+   "options": "Sales Order"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-17 19:30:20.357928",
+ "modified": "2025-01-29 14:36:06.749800",
  "modified_by": "Administrator",
  "module": "Undoworld Customizations",
  "name": "Clickpost Order",
