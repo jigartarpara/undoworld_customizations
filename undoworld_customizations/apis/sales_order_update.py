@@ -7,7 +7,7 @@ def on_update(doc, method):
     if webhook_url and doc.has_value_changed("so_status"):
         tracking_id, waybill = get_tracking_id(doc.name)
         orde_details = []
-        for row in doc.items
+        for row in doc.items:
             orde_details.append({
                 "device": row.item_code,
                 "specs": row.description,
