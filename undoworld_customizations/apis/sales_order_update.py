@@ -27,7 +27,7 @@ def on_update(doc, method):
             "order_details": orde_details,
             "customer_name": doc.customer,
             "customer_phone": customer.cu_mobile_number,
-            "shipping_address": customer.shipping_address,
+            "shipping_address": doc.shipping_address,
             "paymenttype": doc.payment_type_un,
             "amount": doc.payment_amount_un,
             "paymentmethod": doc.paymentmethod,
