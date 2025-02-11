@@ -10,19 +10,15 @@ def endpoint(mobile_number, customer_name, address,  item_codes,shipping_address
     default_warehouses = get_default_warehouse()
     do_not_save = True
     do_not_submit = True
-    customer = frappe.db.get_value("Customer", {"cu_mobile_number": mobile_number}, "name")
-    if not customer:
-        customer_doc = frappe.new_doc("Customer")
-        customer_doc.customer_name = customer_name
-        customer_doc.customer_type = "Individual"
-        customer_doc.customer_group = "All Customer Groups"
-        customer_doc.territory = "All Territories"
-        customer_doc.cu_mobile_number = mobile_number
-        customer_doc.cu_email = email
-        customer_doc.insert(ignore_permissions=True)
-        customer =  customer_doc.name
-    else:
-        frappe.db.set_value("Customer", customer, "customer_name", customer_name)
+    customer_doc = frappe.new_doc("Customer")
+    customer_doc.customer_name = customer_name + " (" +order_id + ")"
+    customer_doc.customer_type = "Individual"
+    customer_doc.customer_group = "All Customer Groups"
+    customer_doc.territory = "All Territories"
+    customer_doc.cu_mobile_number = mobile_number
+    customer_doc.cu_email = email
+    customer_doc.insert(ignore_permissions=True)
+    customer =  customer_doc.name
     
     address_doc = create_addres(address, customer, "Billing")
     shipping_address_doc = create_addres(shipping_address, customer, "Shipping")
