@@ -18,7 +18,7 @@ def on_update(doc, method):
             "status": doc.so_status,
             "order_placed_on": doc.transaction_date,
             "delivery_status": doc.delivery_status,
-            "order_id": doc.custom_order_id,
+            "order_id": doc.custom_justpay_id,
             "erpnext_order_id": doc.name,
             "location": "",
             "remark": "",
