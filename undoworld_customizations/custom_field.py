@@ -31,7 +31,7 @@ def setup_custom_fields():
 			dict(fieldname='so_status',
 				label='Sales Order Status',
 				fieldtype='Select',
-				options='Pending\nApproved\nCancelled',
+				options='Pending\nApproved\nCancelled\nProcessing\nShipped',
 				allow_on_submit=True,
 				insert_after='delivery_date'
 			),

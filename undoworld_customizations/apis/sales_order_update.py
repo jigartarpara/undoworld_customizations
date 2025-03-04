@@ -1,6 +1,13 @@
 import frappe
 import requests
 
+status = {
+    "Pending":"pending",
+    "Approved": "approved",
+    "Cancelled": "cancelled",
+    "Processing": "processing",
+    "Shipped": "shipped",
+}
 
 def on_update(doc, method):
     webhook_url = frappe.db.get_single_value("OMS Setup", "order_status_update_webhook")
@@ -15,7 +22,7 @@ def on_update(doc, method):
             })
         customer = frappe.get_doc("Customer", doc.customer)
         data = {
-            "status": doc.so_status,
+            "status": status.get(doc.so_status, ""),
             "order_placed_on": doc.transaction_date,
             "delivery_status": doc.delivery_status,
             "order_id": doc.custom_justpay_id,
