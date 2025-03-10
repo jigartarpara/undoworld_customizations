@@ -98,8 +98,7 @@ class SupportTicket(Document):
                 self.status_reason = ""
             self.append("status_tracking", {
                 "status": self.status,
-                "posting_date": today(),
-                "posting_time": now(),
+                "posting_date": now(),
                 "remark": self.status_reason
             })
     def get_history(self):
