@@ -215,7 +215,17 @@ def make_clickpost_doc_from_support_ticket_from_customer(source_name,target_doc=
         st = frappe.get_doc("Support Ticket", source_name)
         target.support_ticket = st.name
         target.pickup_type = "From Customer"
-        target.pickup_address = str(st.house_number ) + " " + str(st.street_line_1) + " " + str(st.street_line_2)+ " " + str(st.street_line_2)
+        target.pickup_address = str(st.house_number ) + " " + str(st.street_line_1) + " " + str(st.street_line_2)+ " " + str(st.city) + " " + str(st.state) + " " + str(st.pincode)
+
+        target.append("clickpost_shipment_item", {
+            "sku": st.device_model,
+            "price": "20000",
+            "weight": "400",
+            "quantity": "1",
+            "hs_code": "85177090",
+            "return_reason": "Service",
+            "emei": st.imei
+        })
         
 
     doclist = get_mapped_doc("Support Ticket", source_name,
@@ -226,6 +236,9 @@ def make_clickpost_doc_from_support_ticket_from_customer(source_name,target_doc=
                 "state":"pickup_state",
                 "city": "pickup_city",
                 "pincode": "pickup_pincode",
+                "customer_name": "pickup_name",
+                "mobile_number": "pickup_phone",
+                "email": "pickup_email"
             }
         },
 
