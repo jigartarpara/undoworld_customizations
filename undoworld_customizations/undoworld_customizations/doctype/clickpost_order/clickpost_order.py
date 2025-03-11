@@ -208,6 +208,11 @@ class ClickpostOrder(Document):
         
         return payload
 
+def stringify(data):
+    if data:
+        return str(data)
+    else:
+        ""
 
 @frappe.whitelist()
 def make_clickpost_doc_from_support_ticket_from_customer(source_name,target_doc=None):
@@ -215,7 +220,7 @@ def make_clickpost_doc_from_support_ticket_from_customer(source_name,target_doc=
         st = frappe.get_doc("Support Ticket", source_name)
         target.support_ticket = st.name
         target.pickup_type = "From Customer"
-        target.pickup_address = str(st.house_number ) + " " + str(st.street_line_1) + " " + str(st.street_line_2)+ " " + str(st.city) + " " + str(st.state) + " " + str(st.pincode)
+        target.pickup_address = stringify(st.house_number ) + " " + stringify(st.street_line_1) + " " + stringify(st.street_line_2)+ " " + stringify(st.city) + " " + stringify(st.state) + " " + stringify(st.pincode)
 
         target.append("clickpost_shipment_item", {
             "sku": st.device_model,
@@ -252,7 +257,7 @@ def make_clickpost_doc_from_support_ticket_to_customer(source_name,target_doc=No
         st = frappe.get_doc("Support Ticket", source_name)
         target.support_ticket = st.name
         target.pickup_type = "To Customer"
-        target.pickup_address = str(st.house_number ) + " " + str(st.street_line_1) + " " + str(st.street_line_2)+ " " + str(st.street_line_2)
+        target.pickup_address = stringify(st.house_number ) + " " + stringify(st.street_line_1) + " " + stringify(st.street_line_2)+ " " + stringify(st.street_line_2)
 
     doclist = get_mapped_doc("Support Ticket", source_name,
     {
