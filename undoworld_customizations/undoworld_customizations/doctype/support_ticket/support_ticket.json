@@ -81,7 +81,7 @@
    "no_copy": 1,
    "oldfieldname": "status",
    "oldfieldtype": "Select",
-   "options": "Pending\nApproved\nWaiting For Pick Arrange\nPick Arranged\nIn Transit\nDevice Received\nDevice Under Repair\nWaiting For Delivery Arrange\nDevice Out for Delivery\nComplete\nReject",
+   "options": "Pending\nApproved\nWaiting For Pick Arrange\nPick Arranged\nIn Transit\nWarrenty Void\nDevice Received\nDevice Under Repair\nWaiting For Delivery Arrange\nDevice Out for Delivery\nComplete\nReject",
    "search_index": 1
   },
   {
