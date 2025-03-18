@@ -81,7 +81,7 @@
    "no_copy": 1,
    "oldfieldname": "status",
    "oldfieldtype": "Select",
-   "options": "Pending\nApproved\nWarrenty Void\nWaiting For Pick Arrange\nPick Arranged\nIn Transit\nDevice Received\nDevice Under Repair\nWaiting For Delivery Arrange\nDevice Out for Delivery\nComplete\nReject",
+   "options": "Pending\nApproved\nWaiting For Pick Arrange\nPick Arranged\nIn Transit\nWarrenty Void\nDevice Received\nDevice Under Repair\nWaiting For Delivery Arrange\nDevice Out for Delivery\nComplete\nReject",
    "search_index": 1
   },
   {
@@ -297,7 +297,7 @@
    "link_fieldname": "support_ticket"
   }
  ],
- "modified": "2024-12-18 14:27:57.438029",
+ "modified": "2025-03-18 12:45:36.427306",
  "modified_by": "Administrator",
  "module": "Undoworld Customizations",
  "name": "Support Ticket",
