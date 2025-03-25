@@ -221,9 +221,10 @@ def make_clickpost_doc_from_support_ticket_from_customer(source_name,target_doc=
         target.support_ticket = st.name
         target.pickup_type = "From Customer"
         target.pickup_address = stringify(st.house_number ) + " " + stringify(st.street_line_1) + " " + stringify(st.street_line_2)+ " " + stringify(st.city) + " " + stringify(st.state) + " " + stringify(st.pincode)
-
+        target.invoice_number = "12345"
         target.append("clickpost_shipment_item", {
             "sku": st.device_model,
+            "description": frappe.db.get_value("Item", st.device_model, "description"),
             "price": "20000",
             "weight": "400",
             "quantity": "1",
