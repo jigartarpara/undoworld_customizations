@@ -20,6 +20,7 @@
   "cb00",
   "awb_number_pickup",
   "awb_number_delivery",
+  "block",
   "customer_details_section",
   "customer_name",
   "mobile_number",
@@ -288,6 +289,12 @@
    "fieldname": "city",
    "fieldtype": "Data",
    "label": "City"
+  },
+  {
+   "default": "0",
+   "fieldname": "block",
+   "fieldtype": "Check",
+   "label": "Block"
   }
  ],
  "icon": "fa fa-ticket",
@@ -297,7 +304,7 @@
    "link_fieldname": "support_ticket"
   }
  ],
- "modified": "2025-03-18 14:00:58.646456",
+ "modified": "2025-03-25 12:21:35.862551",
  "modified_by": "Administrator",
  "module": "Undoworld Customizations",
  "name": "Support Ticket",
