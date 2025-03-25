@@ -8,6 +8,7 @@ import json
 from frappe.utils.password import get_decrypted_password
 from frappe.model.mapper import get_mapped_doc
 from frappe.utils import flt
+from frappe.utils import now
 
 CLICKPOST_URL = "https://www.clickpost.in/api/v3/create-order/"
 
@@ -222,6 +223,7 @@ def make_clickpost_doc_from_support_ticket_from_customer(source_name,target_doc=
         target.pickup_type = "From Customer"
         target.pickup_address = stringify(st.house_number ) + " " + stringify(st.street_line_1) + " " + stringify(st.street_line_2)+ " " + stringify(st.city) + " " + stringify(st.state) + " " + stringify(st.pincode)
         target.invoice_number = "12345"
+        target.pickup_time = now()
         target.append("clickpost_shipment_item", {
             "sku": st.device_model,
             "description": frappe.db.get_value("Item", st.device_model, "description"),
