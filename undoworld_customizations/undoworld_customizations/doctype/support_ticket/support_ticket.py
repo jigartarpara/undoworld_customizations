@@ -15,6 +15,20 @@ class SupportTicket(Document):
                 self.customer = frappe.db.get_value("Delivery Note", dn, "customer")
         self.update_history()
         self.assigned_user()
+        self.validate_imei_number()
+    
+    def validate_imei_number(self):
+        if self.imei:
+            suppurt_ticket = frappe.db.get_value("Support Ticket", 
+            {
+                "name": ("!=", self.name),
+                "imei": self.imei,
+                "status": "Warrenty Void"
+            },
+            "name"
+            )
+            if suppurt_ticket:
+                frappe.throw("Warrenty Void for given imei number.")
     
     def assigned_user(self):
         for row in self.repairing_planning:
