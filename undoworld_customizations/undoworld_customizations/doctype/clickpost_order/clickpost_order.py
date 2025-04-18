@@ -7,7 +7,10 @@ import requests
 import json
 from frappe.utils.password import get_decrypted_password
 from frappe.model.mapper import get_mapped_doc
-from frappe.utils import flt
+from frappe.utils import flt,now_datetime
+
+
+
 
 CLICKPOST_URL = "https://www.clickpost.in/api/v3/create-order/"
 
@@ -229,7 +232,8 @@ def make_clickpost_doc_from_support_ticket_from_customer(source_name,target_doc=
             "quantity": "1",
             "hs_code": "85177090",
             "return_reason": "Service",
-            "emei": st.imei
+            "emei": st.imei,
+            "description":st.device_model,
         })
         
 
@@ -244,10 +248,15 @@ def make_clickpost_doc_from_support_ticket_from_customer(source_name,target_doc=
                 "customer_name": "pickup_name",
                 "mobile_number": "pickup_phone",
                 "email": "pickup_email"
-            }
+                 }
         },
 
     }, target_doc,set_missing_values)
+
+    doclist.pickup_time = now_datetime()
+    doclist.invoice_number = "12345"
+    if doclist.pickup_pincode:
+        doclist.district = get_district_from_pincode(doclist.pickup_pincode)
 
     return doclist
 
@@ -259,6 +268,17 @@ def make_clickpost_doc_from_support_ticket_to_customer(source_name,target_doc=No
         target.pickup_type = "To Customer"
         target.pickup_address = stringify(st.house_number ) + " " + stringify(st.street_line_1) + " " + stringify(st.street_line_2)+ " " + stringify(st.street_line_2)
 
+        target.append("clickpost_shipment_item", {
+            "sku": st.device_model,
+            "price": "20000",
+            "weight": "400",
+            "quantity": "1",
+            "hs_code": "85177090",
+            "return_reason": "Service",
+            "emei": st.imei,
+            "description":st.device_model,
+        })
+        
     doclist = get_mapped_doc("Support Ticket", source_name,
     {
         "Support Ticket": {
@@ -266,11 +286,22 @@ def make_clickpost_doc_from_support_ticket_to_customer(source_name,target_doc=No
             "field_map": {
                 "state":"pickup_state",
                 "city": "pickup_city",
-                "city": "pickup_city",
                 "pincode": "pickup_pincode",
             }
         },
 
     }, target_doc,set_missing_values)
+    doclist.pickup_time = now_datetime()
+    doclist.invoice_number = "12345"
+    if doclist.pickup_pincode:
+        doclist.district = get_district_from_pincode(doclist.pickup_pincode)
 
     return doclist
+
+
+def get_district_from_pincode(pincode):
+    response = requests.get(f"https://api.postalpincode.in/pincode/{pincode}")
+    data = response.json()
+    if data[0]['Status'] == 'Success':
+        return data[0]['PostOffice'][0]['District']
+    return None
