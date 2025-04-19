@@ -29,6 +29,8 @@ class ClickpostOrder(Document):
             frappe.db.set_value("Support Ticket", self.support_ticket, "status", "Pick Arranged")
         if self.pickup_type == "To Customer" and self.support_ticket:
             frappe.db.set_value("Support Ticket", self.support_ticket, "status", "Device Out for Delivery")
+        if self.waybill:
+            frappe.db.set_value("Support Ticket", self.support_ticket, "awb_number_pickup", self.waybill)    
     
     def create_clickpost_order(self):
         headers = {
@@ -256,7 +258,7 @@ def make_clickpost_doc_from_support_ticket_from_customer(source_name,target_doc=
     doclist.pickup_time = now_datetime()
     doclist.invoice_number = "12345"
     if doclist.pickup_pincode:
-        doclist.district = get_district_from_pincode(doclist.pickup_pincode)
+        doclist.pickup_district = get_district_from_pincode(doclist.pickup_pincode)
 
     return doclist
 
@@ -278,7 +280,7 @@ def make_clickpost_doc_from_support_ticket_to_customer(source_name,target_doc=No
             "emei": st.imei,
             "description":st.device_model,
         })
-        
+
     doclist = get_mapped_doc("Support Ticket", source_name,
     {
         "Support Ticket": {
@@ -294,7 +296,7 @@ def make_clickpost_doc_from_support_ticket_to_customer(source_name,target_doc=No
     doclist.pickup_time = now_datetime()
     doclist.invoice_number = "12345"
     if doclist.pickup_pincode:
-        doclist.district = get_district_from_pincode(doclist.pickup_pincode)
+        doclist.pickup_district = get_district_from_pincode(doclist.pickup_pincode)
 
     return doclist
 
