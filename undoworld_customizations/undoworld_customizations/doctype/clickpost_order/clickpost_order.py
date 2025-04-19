@@ -289,6 +289,9 @@ def make_clickpost_doc_from_support_ticket_to_customer(source_name,target_doc=No
                 "state":"pickup_state",
                 "city": "pickup_city",
                 "pincode": "pickup_pincode",
+                "customer_name": "pickup_name",
+                "mobile_number": "pickup_phone",
+                "email": "pickup_email"
             }
         },
 
