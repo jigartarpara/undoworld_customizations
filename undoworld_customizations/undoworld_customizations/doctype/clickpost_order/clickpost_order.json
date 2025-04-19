@@ -255,7 +255,7 @@
    "fieldname": "order_type",
    "fieldtype": "Select",
    "label": "Order Type",
-   "options": "\nCOD"
+   "options": "\nCOD\nPREPAID"
   },
   {
    "fieldname": "invoice_date",
@@ -266,7 +266,7 @@
    "fieldname": "delivery_type",
    "fieldtype": "Select",
    "label": "Delivery Type",
-   "options": "\nRVP"
+   "options": "\nRVP\nFWD"
   },
   {
    "fieldname": "invoice_value",
@@ -406,7 +406,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-29 14:36:06.749800",
+ "modified": "2025-04-19 14:09:09.711979",
  "modified_by": "Administrator",
  "module": "Undoworld Customizations",
  "name": "Clickpost Order",
