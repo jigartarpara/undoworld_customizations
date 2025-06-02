@@ -84,6 +84,8 @@ def make_sales_order(**args):
     so.po_no = args.po_no or ""
     so.shipping_address_name = args.shipping_address
     so.customer_address = args.address
+    so.coupon_code=args.coupon_code
+    so.discount_amount=args.discount_amount
     if args.selling_price_list:
         so.selling_price_list = args.selling_price_list
 
