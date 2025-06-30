@@ -65,6 +65,18 @@ def setup_custom_fields():
 				allow_on_submit=True,
 				insert_after='paymentmethod'
 			),
+			dict(fieldname='offer_code',
+				label='Offer Code',
+				fieldtype='Data',
+				allow_on_submit=True,
+				insert_after='payment_status'
+			),
+			dict(fieldname='offer_discount',
+				label='Offer Discount',
+				fieldtype='Data',
+				allow_on_submit=True,
+				insert_after='offer_code'
+			),
 		],
 		"Sales Order Item": [
 			dict(fieldname='is_addons',
