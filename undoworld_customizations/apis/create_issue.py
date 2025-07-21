@@ -1,5 +1,6 @@
 import frappe
 from frappe.utils.file_manager import save_file
+import json
 
 #fname, content, dt, dn, folder=None, decode=False, is_private=0, df=None
 
@@ -183,6 +184,7 @@ def endpoint(**kwargs):
     ticket.ignore_permissions = True
     
     ticket.save()
+    ticket.add_comment("Comment",json.dumps(kwargs, indent=4))
     return ticket.name
 
 def form_body():
