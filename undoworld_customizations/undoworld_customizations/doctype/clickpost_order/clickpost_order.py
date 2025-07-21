@@ -305,8 +305,11 @@ def make_clickpost_doc_from_support_ticket_to_customer(source_name,target_doc=No
 
 
 def get_district_from_pincode(pincode):
-    response = requests.get(f"https://api.postalpincode.in/pincode/{pincode}")
-    data = response.json()
-    if data[0]['Status'] == 'Success':
-        return data[0]['PostOffice'][0]['District']
-    return None
+	try:
+		response = requests.get(f"https://api.postalpincode.in/pincode/{pincode}")
+		data = response.json()
+		if data[0]['Status'] == 'Success':
+			return data[0]['PostOffice'][0]['District']
+	except:
+		return None
+	return None
