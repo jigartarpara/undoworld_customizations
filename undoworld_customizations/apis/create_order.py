@@ -6,7 +6,7 @@ from erpnext.manufacturing.doctype.work_order.work_order import get_default_ware
 
 
 @frappe.whitelist(methods="POST")
-def endpoint(mobile_number, customer_name, address,  item_codes,shipping_address,email="", payment=None, discount = None, gst=0, shipping_charge=0, order_payment_type = "", order_id="", juspayid ="", offer_code = "", offer_discount = ""):
+def endpoint(mobile_number, customer_name, address,  item_codes,shipping_address,email="", payment=None, discount = None, gst=0, shipping_charge=0, order_payment_type = "", order_id="", juspayid ="", offer_code = "", offer_discount = "", custom_website_coupon_code="", discount_amount=""):
     default_warehouses = get_default_warehouse()
     do_not_save = True
     do_not_submit = True
